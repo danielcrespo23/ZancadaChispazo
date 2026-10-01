@@ -23,3 +23,13 @@ test('persistence keeps data across reads, rejects stale tabs and duplicate reco
  assert.equal((await writeState(db,'ana',{...s,activities:[run]},1)).status,200);assert.equal((await readState(db,'ana')).state.activities.length,1);
  assert.equal((await writeState(db,'ana',{...s,profile:{...s.profile,timezone:'Bad/Zone'}},2)).status,400);
  assert.equal((await writeState(db,'ana',s,-1)).status,400);});
+
+test('expanded questionnaire, exact seven-week plan and completed records survive database reload and revision',async()=>{
+ const db=d1(),p={...profile('Privado'),recentFrequency:3,consistentWeeks:12,consistency:'continuous',recentInjury:false,fatigue:4,recovery:'good',otherSports:[{id:'strength',type:'strength',day:2,minutes:40,intensity:'hard'}],marks:[{id:'mark',date:addDays(today(),-21),distance:5,time:'25:00',effort:'race',terrain:'asphalt',elevation:0}],goal:{type:'race',intent:'improve',distance:10,date:addDays(today(),49),time:'',terrain:'asphalt',elevation:60}};
+ let state=acceptPlanPreview({...empty(),profile:p},buildPlanPreview({...empty(),profile:p}));
+ const run={id:'own',date:addDays(today(),-1),distance:5,seconds:1900,elapsedSeconds:2000,type:'easy',rpe:3,fatigue:2,pain:'none',terrain:'asphalt',sessionId:''};state={...state,activities:[run]};
+ assert.equal((await writeState(db,'one',state,0)).status,200);const reloaded=await readState(db,'one');assert.deepEqual(reloaded.state,state);assert.equal(reloaded.state.plan.racePreparation.totalDays,49);
+ const bad=structuredClone(state);bad.plan.sessions.find(s=>s.date>=today()).seconds++;const rejected=await writeState(db,'one',bad,1);assert.equal(rejected.status,400);assert.match(rejected.error,/totales/);assert.equal((await readState(db,'one')).revision,1);
+ const changed={...reloaded.state,profile:{...p,goal:{...p.goal,date:addDays(today(),42)}}},preview=buildPlanPreview(changed),accepted=acceptPlanPreview(changed,preview);
+ assert.equal((await writeState(db,'one',accepted,reloaded.revision)).status,200);const again=(await readState(db,'one')).state;assert.deepEqual(again.activities,[run]);assert.equal(again.plan.end,addDays(today(),42));assert.equal(again.profile.otherSports[0].type,'strength');assert.equal(again.profile.goal.intent,'improve');assert(again.changes.length>=2);assert.equal((await readState(db,'two')).state,null);
+});
