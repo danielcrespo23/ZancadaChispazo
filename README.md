@@ -37,6 +37,18 @@ Los datos se guardan en `.wrangler/state` y se conservan al reiniciar el servido
 
 > Usa `npm run dev` para probar. `npm start` sirve la versión compilada pero no simula el inicio de sesión.
 
+## Revisar el reparto y las referencias del plan
+
+En **Mi plan → Revisar plan → Calcular propuesta de plan** puedes comparar las distancias antes de aceptar. Se conservan las sesiones pasadas y las ya realizadas; los cambios quedan en el historial.
+
+- La tirada larga limita el reparto semanal: los otros rodajes no superan el 90 % de su distancia. Si tu tirada reciente o el tiempo disponible no permiten más, se reduce el volumen sin acumularlo en otro día.
+- Las sesiones se acortan respetando los minutos disponibles y conservan su tipo cuando cabe; la puesta a punto se calcula también por la fecha de cada sesión.
+- Las marcas se normalizan a una distancia común para estimar ritmos: un 5 km y una media maratón no se tratan como esfuerzos equivalentes por kilómetro. Un ritmo suave declarado más lento se respeta.
+- Al revisar con historial completo, las carreras propias en asfalto, sin molestias y con esfuerzo de al menos 7/10 pueden aportar referencias. Un rodaje fácil no se interpreta como una marca.
+- Los calendarios antiguos con rodajes mayores que la tirada larga muestran un aviso para revisarlos.
+
+Estas reglas son orientativas; no constituyen una validación profesional del plan ni una garantía de rendimiento.
+
 ## Comprobar que todo funciona
 
 ```sh

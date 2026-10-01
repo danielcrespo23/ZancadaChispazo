@@ -1,5 +1,15 @@
 # Strava en Zancada
 
+## Uso local en PC sin caché de actividades
+
+Consulta [USAR-EN-PC.md](../USAR-EN-PC.md). En desarrollo y con retorno OAuth a
+localhost se usa consulta directa: no se guardan actividades ni trabajos en D1.
+Este modo puede conectar con `STRAVA_RETENTION_JOB_ENABLED=false` porque no
+depende de una caché persistente ni de su limpieza. Las instrucciones de cron,
+relay y habilitación de retención de este documento corresponden al modo de
+servidor con caché. La selección del modo local está en el código de desarrollo,
+no se puede activar en una compilación de producción mediante una variable.
+
 Implementado sobre el mismo sitio, sin sustituir perfiles, carreras manuales ni planes. El inicio de sesión sigue siendo individual con ChatGPT; la identidad procede del servidor de Sites. No se usan cuentas compartidas. Cada consulta de datos personales incluye el ID del usuario autenticado; el ID del atleta es único entre conexiones. Tokens AES-256-GCM con IV aleatorio y el ID de usuario como dato autenticado, almacenados solo en D1. Las tablas de Strava son nuevas; la migración no modifica runner_state.
 
 ## Restricción vigente (revisión: 01/10/2026)
@@ -19,6 +29,22 @@ La conexión es solo OAuth. Se ha retirado la ruta para pegar un access token ma
 El periodo consultado (90 días por defecto, 30/90/180/365 disponibles) no es el periodo de retención. Cada respuesta se conserva como máximo siete días; purga antes de lectura y trabajo periódico. Las notas escritas por el usuario se guardan aparte y sobreviven sin métricas, fecha, identificador ni enlace externo si se elimina o caduca la actividad. Desconectar elimina caché, tokens y trabajos inmediatamente. Borrar todos los datos elimina también notas y ajustes; confirma el borrado en la aplicación.
 
 ## Configuración externa pendiente
+
+### Preparar las credenciales en este ordenador
+
+Si ya tienes una aplicación registrada, ejecuta desde la carpeta del proyecto:
+
+```powershell
+npm.cmd run strava:setup
+```
+
+Se crea `.dev.vars`, excluido de Git, con claves aleatorias de cifrado y de trabajos. El comando conserva todas las variables existentes: no rota claves ni borra credenciales. Abre ese archivo en tu editor e introduce `STRAVA_CLIENT_ID` y `STRAVA_CLIENT_SECRET`. Nunca pegues los secretos en el chat ni en el código.
+
+Para la prueba local, configura `localhost` como **Authorization Callback Domain** en el panel de Strava. El retorno preparado es `http://localhost:5173/api/strava/callback`. Reinicia el servidor y abre `http://localhost:5173/` para mantener el mismo dominio durante todo el flujo OAuth. Para un despliegue, cambia tanto el dominio de Strava como `STRAVA_REDIRECT_URI` al dominio HTTPS real.
+
+En el modo PC de desarrollo, preparar las credenciales permite iniciar OAuth sin programador: las actividades se consultan sin caché persistente. Deja `STRAVA_RETENTION_JOB_ENABLED=false`. **Para un despliegue con caché**, preparar credenciales no habilita por sí solo la conexión: debes configurar y verificar el programador indicado a continuación antes de activar esa variable. Las credenciales locales no se publican automáticamente en Sites.
+
+Las actividades consultadas mediante la API se muestran separadas. No se convierten en marcas ni en registros propios para adaptar el entrenamiento. Para personalizar el plan, usa marcas de carreras introducidas en el perfil o tus registros propios de Zancada.
 
 1. El propietario debe [registrar la aplicación](https://www.strava.com/settings/api), cumplir condiciones y aportar una política de privacidad con responsable y contacto reales. La guía vigente requiere suscripción de Strava para crear una app. Las nuevas aplicaciones empiezan en modo para un único atleta. Solicitar el acceso para 10 atletas desde el panel API; para superar esa capacidad, revisión y aprobación de Strava. Revisar siempre la capacidad y cuotas asignadas allí; no se implementa un sistema de tokens compartidos para evitarlas.
 2. Configurar en el servidor de Sites `STRAVA_CLIENT_ID` y `STRAVA_CLIENT_SECRET` (secreto). Ya se han generado en el servidor `STRAVA_TOKEN_KEY` (32 bytes en Base64), `STRAVA_WEBHOOK_PATH_SECRET`, `STRAVA_WEBHOOK_VERIFY_TOKEN` y `STRAVA_JOB_SECRET`; no rotar la clave sin migrar/reautorizar las conexiones cifradas.

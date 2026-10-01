@@ -53,6 +53,8 @@ export default defineConfig(async ({ command }) => {
 
   return {
     server: {
+      // OAuth is registered for this port; never silently switch to 5174.
+      strictPort: true,
       ...(managedLinux
         ? { host: "0.0.0.0", allowedHosts: ["terminal.local"] }
         : {}),

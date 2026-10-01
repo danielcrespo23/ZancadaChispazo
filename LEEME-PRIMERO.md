@@ -1,5 +1,7 @@
 ﻿# Zancada — aplicación completa
 
+Para usar esta versión en tu PC, empieza por [USAR-EN-PC.md](USAR-EN-PC.md). Incluye el acceso Iniciar-Zancada.cmd y Strava sin caché de actividades ni programador.
+
 Versión exportada el 1 de octubre de 2026. Código de la versión publicada:
 `43ed6c6e36873490c7ed510561414468ea2b1388`.
 

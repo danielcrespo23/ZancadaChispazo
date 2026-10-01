@@ -66,3 +66,12 @@
 .next-date,.calendar-title h2,.modal-heading h2{text-transform:none}.next-date{display:inline-block}.next-date::first-letter,.calendar-title h2::first-letter,.modal-heading h2::first-letter{text-transform:uppercase}
 /* Seven destinations must fit in the mobile bar, so labels wrap instead of being clipped */
 @media(max-width:550px){.sidebar nav{gap:0}.sidebar nav button{flex:1 1 0;min-width:0;padding:8px 1px 6px;gap:4px}.sidebar nav button span{display:block;white-space:normal;max-width:none;font-size:9px;line-height:1.1;text-align:center;overflow-wrap:anywhere}}
+/* Race preparation: readable on desktop and narrow screens. */
+.coach-focus{font-size:1.12rem;line-height:1.65;max-width:70ch}
+.coach-week{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin:1.4rem 0}
+.coach-week>div{display:flex;flex-direction:column;gap:.4rem;padding:1rem;border:1px solid currentColor;border-radius:14px}
+.coach-week strong{font-size:1.55rem}
+.coach-week span{font-size:.85rem;opacity:.75}
+.coach-key{padding:1rem;border-left:4px solid #67965b;border-radius:8px;background:rgba(103,150,91,.08)}
+.race-coach summary{cursor:pointer;min-height:44px;display:flex;align-items:center}
+@media(max-width:640px){.coach-week{grid-template-columns:1fr}.coach-week>div{padding:.8rem}}
