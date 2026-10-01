@@ -1,0 +1,26 @@
+// Checks the running local dev server end to end: `npm run dev -- --hostname 127.0.0.1`, then `node scripts/smoke-local.mjs`.
+import assert from 'node:assert/strict';
+import {empty,blankProfile,addDays,today} from '../lib/engine.mjs';
+import {buildPlanPreview,acceptPlanPreview} from '../lib/training.mjs';
+const base=process.argv[2]||'http://127.0.0.1:5173';
+const auth={cookie:'__sites_local_auth=1'},write={...auth,'Content-Type':'application/json',Origin:base};
+const call=async(path,init={})=>{const r=await fetch(base+path,{redirect:'manual',...init});let data=null;try{data=await r.json();}catch{}return {status:r.status,data,headers:r.headers};};
+const anon=await call('/');assert.ok([302,303,307].includes(anon.status),`anonymous visit should go to sign-in, got ${anon.status}`);
+const spoof=await call('/api/state',{headers:{'oai-authenticated-user-id':'someone-else','oai-authenticated-user-email':'x@example.invalid'}});assert.equal(spoof.status,401,'identity headers sent by a browser are ignored');
+await call('/api/state',{method:'DELETE',headers:write});
+const first=await call('/api/state',{headers:auth});assert.equal(first.status,200);assert.equal(first.data.state,null);
+const strava=await call('/api/strava/status',{headers:auth});assert.equal(strava.status,200);assert.equal(typeof strava.data.configured,'boolean');assert.ok(Array.isArray(strava.data.checklist));assert.ok(!JSON.stringify(strava.data).match(/"(cipher|accessToken|refreshToken|access_token|refresh_token)"/),'no credentials in the status response');
+assert.equal((await call('/api/strava/token',{method:'POST',headers:write,body:'{}'})).status,404,'manual token connection is not exposed');
+const connect=await call('/api/strava/connect',{method:'POST',headers:write,body:'{}'});if(!strava.data.configured)assert.equal(connect.data.code,'configuration_pending','no simulated OAuth when the server is not configured');
+const s={...empty(),profile:{...blankProfile(),name:'Prueba',experience:'regular',weeklyKm:20,longest:8,days:[1,3,6],minutes:{1:50,3:50,6:90},longDay:6,timezone:'Europe/Madrid',goal:{type:'race',distance:10,date:addDays(today(),70),time:''}}};
+const state=acceptPlanPreview(s,buildPlanPreview(s));
+const put=await call('/api/state',{method:'PUT',headers:write,body:JSON.stringify({state,revision:0})});assert.equal(put.status,200,JSON.stringify(put.data));
+const back=await call('/api/state',{headers:auth});assert.deepEqual(back.data.state,state);assert.equal(back.data.revision,1);
+assert.equal((await call('/api/state',{method:'PUT',headers:write,body:JSON.stringify({state,revision:0})})).status,409);
+const run={id:'r1',date:today(),distance:5,seconds:1800,rpe:3,sessionId:''};
+assert.equal((await call('/api/state',{method:'PUT',headers:write,body:JSON.stringify({state:{...state,activities:[run,{...run}]},revision:1})})).status,400);
+assert.equal((await call('/api/state',{method:'PUT',headers:{...write,Origin:'https://evil.example'},body:JSON.stringify({state,revision:1})})).status,403);
+const race=back.data.state.plan.sessions.find(x=>x.type==='race');assert.equal(race.date,s.profile.goal.date);assert.match(race.blocks[0].label,/^Día de la carrera · 10 km/);
+assert.equal((await call('/api/state',{method:'DELETE',headers:write})).status,200);assert.equal((await call('/api/state',{headers:auth})).data.state,null);
+const page=await fetch(base+'/',{headers:auth});assert.equal(page.status,200);
+console.log(`OK · ${base} · Strava configurado: ${strava.data.configured} · pendientes: ${strava.data.checklist.filter(c=>!c.done).map(c=>c.id).join(', ')||'ninguno'}`);

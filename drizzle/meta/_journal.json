@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1790761309844,
+      "tag": "0000_cool_true_believers",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1790768293011,
+      "tag": "0001_luxuriant_jamie_braddock",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1790769342455,
+      "tag": "0002_abnormal_skreet",
+      "breakpoints": true
+    }
+  ]
+}

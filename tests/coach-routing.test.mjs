@@ -1,0 +1,5 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {coach,blankProfile,generate,empty,today} from '../lib/engine.mjs';
+const p={...blankProfile(),weeklyKm:20,easyPace:'6:30'},state={...empty(),profile:p,plan:generate(p)};
+test('ChatGPT status questions return the real local status, including with an empty profile',()=>{for(const s of [state,empty()]){const answer=coach('¿Estás conectado con ChatGPT?',s);assert.match(answer,/reglas locales/);assert.match(answer,/no está conectado directamente/);assert.match(answer,/No puedo comprobar/);assert(!answer.includes('Tu siguiente sesión'));}});
+test('unsupported questions are acknowledged instead of replaced with next session',()=>{const answer=coach('¿Qué significa esta palabra?',state);assert.match(answer,/otras preguntas/);assert(!answer.includes('Tu siguiente sesión'));});
+test('next session guidance skips already completed sessions',()=>{const next=state.plan.sessions.find(s=>s.date>=today());const s={...state,activities:[{sessionId:next.id}]};assert(!coach('¿Cuál es mi próxima sesión?',s).includes(`(${next.date})`));assert.match(coach('Estoy cansado',state),/Si estás cansado/);});
