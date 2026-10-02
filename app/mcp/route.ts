@@ -4,6 +4,7 @@ import {CoachService,coachTools} from '../../lib/ai-coach.mjs';
 export const dynamic='force-dynamic';
 const json=(v:unknown,status=200)=>Response.json(v,{status,headers:{'Cache-Control':'no-store'}});
 export async function POST(request:Request){
+ const origin=request.headers.get('origin');if(origin&&origin!==new URL(request.url).origin)return json({error:'Origen no permitido.'},403);
  let body:any;
  try{const raw=await request.text();if(raw.length>16000)return json({error:'Solicitud demasiado grande'},413);body=JSON.parse(raw);}catch{return json({jsonrpc:'2.0',id:null,error:{code:-32700,message:'JSON inválido'}},400);}
  if(!body||body.jsonrpc!=='2.0'||typeof body.method!=='string')return json({jsonrpc:'2.0',id:body?.id??null,error:{code:-32600,message:'Solicitud inválida'}},400);

@@ -6,7 +6,7 @@ import {recentTraining,buildPlanPreview,acceptPlanPreview,missedTraining,confirm
 import {manualContext,aiProposal} from '../lib/ai-coach.mjs';
 import {raceCoaching} from '../lib/race-coach.mjs';
 const start='2026-10-01',race=addDays(start,49);
-const runner=(over={})=>({...blankProfile(),experience:'regular',weeklyKm:24,longest:8,recentFrequency:3,consistentWeeks:12,consistency:'continuous',fatigue:3,recovery:'good',days:[2,4,0],trainingDays:3,longDay:0,minutes:{2:55,4:45,0:90},marks:[{id:'mark',date:'2026-09-20',distance:5,time:'25:00',effort:'race',terrain:'asphalt',elevation:0}],goal:{type:'race',intent:'improve',distance:10,date:race,time:'',terrain:'asphalt',elevation:0},...over});
+const runner=(over={})=>({...blankProfile(),experience:'regular',weeklyKm:24,longest:8,recentFrequency:3,consistentWeeks:12,consistency:'continuous',fatigue:3,recovery:'good',days:[2,4,0],trainingDays:3,longDay:0,minutes:{2:55,4:45,0:90},marks:[{id:'mark',date:'2026-09-20',distance:5,time:'25:00',effort:'race',context:'competition',measurement:'measured',terrain:'asphalt',elevation:0}],goal:{type:'race',intent:'improve',distance:10,date:race,time:'',terrain:'asphalt',elevation:0},...over});
 const training=s=>!['rest','strength','race'].includes(s.type);
 function totals(plan,p){
  assert.deepEqual(validatePlan(plan,p),[]);
@@ -84,14 +84,14 @@ test('AI explanations receive only useful structured context and never nested cr
  assert(text.includes('crossfit'));assert(text.includes('continuous'));
 });
 test('date and availability revisions preserve actual records, completed sessions and the original plan history',()=>{
- const p=runner({marks:[{id:'older-mark',date:'2026-09-10',distance:5,time:'25:00',effort:'race'}]}),plan=generate(p,addDays(start,-14)),s=plan.sessions.find(s=>s.date<start&&s.distance),a={id:'done',date:s.date,sessionId:s.id,type:s.type,distance:s.distance,seconds:s.seconds,rpe:3,fatigue:2,pain:'none'};
+ const p=runner({marks:[{id:'older-mark',date:'2026-09-10',distance:5,time:'25:00',effort:'race',context:'competition',measurement:'measured',terrain:'asphalt'}]}),plan=generate(p,addDays(start,-14)),s=plan.sessions.find(s=>s.date<start&&s.distance),a={id:'done',date:s.date,sessionId:s.id,type:s.type,distance:s.distance,seconds:s.seconds,rpe:3,fatigue:2,pain:'none'};
  const state={...empty(),profile:{...p,goal:{...p.goal,date:addDays(race,-7)},minutes:{2:20,4:20,0:35}},plan,activities:[a]},preview=buildPlanPreview(state,{},start),accepted=acceptPlanPreview(state,preview,start);
  assert.deepEqual(accepted.activities,[a]);assert.deepEqual(accepted.plan.sessions.find(v=>v.id===s.id),s);assert.equal(accepted.plan.end,addDays(race,-7));assert.equal(accepted.plan.sessions.filter(v=>v.date>=start&&v.type==='race').length,1);assert.equal(accepted.changes[0].before,plan);
  assert.equal(raceCoaching(accepted,start).phase.key,'base','the current phase starts at the revision, although historical sessions remain');
  assert(accepted.plan.sessions.filter(v=>v.date>=start&&v.type!=='race').every(v=>v.seconds<=state.profile.minutes[day(v.date)]*60));
 });
 test('a provisional old reference or excessive goal never assigns a competitive race pace',()=>{
- const p=runner({marks:[{date:'2026-06-01',distance:5,time:'25:00',effort:'race'}],goal:{type:'race',intent:'time',distance:10,date:race,time:'50:00'}}),plan=generate(p,start);assert(plan.viability.cautious);assert(metrics(p,start).markAgeDays>90);assert.equal(plan.sessions.find(s=>s.type==='race').range,null);
+ const p=runner({marks:[{date:'2026-06-01',distance:5,time:'25:00',effort:'race',context:'competition',measurement:'measured',terrain:'asphalt'}],goal:{type:'race',intent:'time',distance:10,date:race,time:'50:00'}}),plan=generate(p,start);assert(plan.viability.cautious);assert(metrics(p,start).markAgeDays>90);assert.equal(plan.sessions.find(s=>s.type==='race').range,null);
  const ambitious=runner({goal:{type:'race',intent:'time',distance:10,date:race,time:'35:00'}});assert.equal(generate(ambitious,start).sessions.find(s=>s.type==='race').durationUnknown,true);
 });
 test('faster effort, high fatigue or pain cannot be labelled completed as prescribed',()=>{

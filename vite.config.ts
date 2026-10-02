@@ -13,6 +13,11 @@ const { d1, r2 } = hostingConfig;
 // macOS Seatbelt blocks FSEvents, so Codex previews need polling for HMR.
 const isCodexSeatbeltSandbox = process.env.CODEX_SANDBOX === "seatbelt";
 const managedLinux = readExecutionProfile() === "managed-linux";
+// Verification uses a fresh project-local database, never the runner's store.
+const verificationRun = process.env.ZANCADA_VERIFY_RUN_ID;
+if (verificationRun && !/^[0-9a-f-]{36}$/.test(verificationRun)) {
+  throw new Error("Invalid verification run ID.");
+}
 
 const localBindingConfig = {
   main: "./build/sites-worker.ts",
@@ -67,6 +72,7 @@ export default defineConfig(async ({ command }) => {
       sites({ mockAuth: !managedLinux }),
       connectorPreview(),
       cloudflare({
+        ...(verificationRun ? {persistState: {path: `.tools/verify-${verificationRun}/state`}} : {}),
         viteEnvironment: { name: "rsc", childEnvironments: ["ssr"] },
         inspectorPort: false,
         config: {

@@ -17,7 +17,7 @@ test('own pain changes priority; Strava data cannot affect coaching; stale calen
  s.profile.goal.date=addDays(s.profile.goal.date,1);assert(raceCoaching(s,date).alerts.some(a=>a.includes('no coinciden')));
 });
 test('return after a break reduces the base, preserves the race and prevents quality for fourteen days',()=>{
- const s=state();s.profile.weeklyKm=40;s.profile.longest=12;
+ const s=state();s.profile.weeklyKm=40;s.profile.longest=12;s.profile.goal.intent='improve';
  const preview=buildPlanPreview(s,{returnAfterBreak:true},date);
  assert.equal(preview.plan.basis.profile.weeklyKm,24);assert.equal(preview.plan.basis.profile.longest,8.4);
  const first=preview.plan.sessions.filter(s=>s.date>=date&&s.date<addDays(date,14));

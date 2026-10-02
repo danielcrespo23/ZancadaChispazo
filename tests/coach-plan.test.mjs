@@ -22,7 +22,7 @@ test('weekly distance and duration hierarchy survive availability and taper boun
  }
 });
 test('equivalent 5 km and half-marathon performances yield equivalent training ranges',()=>{
- const p=profile(),date='2026-09-20',five={...p,marks:[{distance:5,time:1500,date}]},half={...p,marks:[{distance:21.1,time:1500*Math.pow(21.1/5,1.06),date}]};
+ const p=profile(),date='2026-09-20',five={...p,marks:[{distance:5,time:1500,date,effort:'race',context:'competition',measurement:'measured',terrain:'asphalt'}]},half={...p,marks:[{distance:21.1,time:1500*Math.pow(21.1/5,1.06),date,effort:'race',context:'competition',measurement:'measured',terrain:'asphalt'}]};
  assert.ok(Math.abs(metrics(five,start).basePace-metrics(half,start).basePace)<.001);
  assert.deepEqual(metrics(five,start).ranges,metrics(half,start).ranges);
  const slow={...five,easyPace:'8:00'};assert.ok(metrics(slow,start).ranges.easy[0]>=465);
@@ -40,7 +40,7 @@ test('saved broken plans are diagnosed; revision preserves completed and histori
 test('history review uses own race performances but does not promote easy runs or provider records',()=>{
  const p=profile(),activities=[];
  for(let w=0;w<4;w++)for(const offset of [1,3,5])activities.push({id:`${w}-${offset}`,date:addDays(monday(start),-28+w*7+offset),type:'easy',distance:6,seconds:2340,rpe:3,fatigue:2,pain:'none',terrain:'asphalt'});
- activities.push({id:'race',date:'2026-09-20',type:'race',distance:5,seconds:1500,rpe:8,fatigue:3,pain:'none',terrain:'asphalt'});
+ activities.push({id:'race',raceEffort:'race',date:'2026-09-20',type:'race',distance:5,seconds:1500,rpe:8,fatigue:3,pain:'none',terrain:'asphalt'});
  activities.push({id:'provider',source:'strava',date:'2026-09-28',type:'race',distance:5,seconds:1200,rpe:9,pain:'none',terrain:'asphalt'});
  const state={profile:p,activities,changes:[],proposals:[],plan:null};
  const preview=buildPlanPreview(state,{useHistory:true,completeHistory:true},start);

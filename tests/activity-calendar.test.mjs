@@ -1,6 +1,6 @@
 import test from 'node:test';import assert from 'node:assert/strict';
 import {blankProfile,session,empty,today,addDays,recordActivity,repairActivityLinks,regeneratePlan,analysisForActivity} from '../lib/engine.mjs';
-const p={...blankProfile(),experience:'regular',weeklyKm:24,longest:8,marks:[{date:addDays(today(),-10),distance:5,time:'25:00'}]};
+const p={...blankProfile(),experience:'regular',weeklyKm:24,longest:8,marks:[{date:addDays(today(),-10),distance:5,time:'25:00',effort:'race',context:'competition',measurement:'measured',terrain:'asphalt'}]};
 const s=session(p,'tempo',today(),5,0,1),future=session(p,'interval',addDays(today(),3),5,0,2);
 const base={...empty(),profile:p,plan:{id:'plan',start:today(),end:addDays(today(),60),sessions:[s,future]}};
 const a={id:'a',date:today(),distance:5,seconds:1800,type:'tempo',rpe:6,fatigue:3,pain:'none',feeling:'bien',linkMode:'auto',sessionId:'',laps:[]};

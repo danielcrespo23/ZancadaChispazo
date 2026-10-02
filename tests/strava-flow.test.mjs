@@ -81,7 +81,7 @@ test('refresh is serialized so two requests cannot overwrite rotating credential
  await f.service().saveConnection('one','1',{accessToken:'expired-test-token',refreshToken:'old-test-refresh',expiresAt:1},'oauth',['activity:read_all']);
  const service=f.service(),c=await service.connection('one'),before=f.calls.filter(c=>c.url.includes('/oauth/token')).length;
  const results=await Promise.allSettled([service.access(c),service.access(c)]);
- assert(results.some(r=>r.status==='fulfilled'));assert(results.some(r=>r.status==='rejected'&&r.reason.status===429));
+ assert(results.every(r=>r.status==='fulfilled'&&r.value==='test-only-access'));
  assert.equal(f.calls.filter(c=>c.url.includes('/oauth/token')).length-before,1);
 });
 test('failed initial sync keeps the authenticated connection; two connected users receive only their own runs',async()=>{

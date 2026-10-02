@@ -12,7 +12,14 @@
     "build": "node scripts/run-framework.mjs build",
     "start": "node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js dev --config dist/server/wrangler.json --local --persist-to .wrangler/state --ip 127.0.0.1 --inspector-port 0",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
-    "db:generate": "drizzle-kit generate"
+    "test": "node --test tests/*.test.mjs",
+    "check:types": "tsc --noEmit",
+    "verify:local": "node scripts/smoke-local.mjs",
+    "verify:storage": "node scripts/verify-state-http.mjs",
+    "verify:browser": "node scripts/verify-running-browser.mjs",
+    "verify:followup": "node scripts/verify-followup-browser.mjs",
+    "db:generate": "drizzle-kit generate",
+    "verify:integrations": "node scripts/verify-integrations-browser.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",

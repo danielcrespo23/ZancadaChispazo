@@ -5,7 +5,7 @@ Aplicación web de entrenamiento de running que crea un plan personal según tu 
 - **Configuración guiada** la primera vez: cuenta, Strava (opcional), objetivo, experiencia, disponibilidad, molestias y revisión del plan.
 - **Plan por reglas, sin IA**: base, desarrollo, descargas, puesta a punto y «Día de la carrera». Cada sesión indica calentamiento, bloque principal, recuperaciones y vuelta a la calma, con ritmos legibles («2 km a 6:00 min/km · 10 km/h»).
 - **Valoración de la meta**: si es demasiado exigente, lo dice y propone alternativas. No promete resultados.
-- **Seguimiento**: registras tus carreras y el calendario distingue sesiones completadas, realizadas con cambios y carreras adicionales. Los ajustes del plan se proponen y tú decides si aceptarlos; se pueden deshacer.
+- **Seguimiento**: registra carreras o recibe archivos propios autorizados. Estadísticas y calendario distinguen completadas, realizadas con cambios, sin vincular y adicionales. Puedes corregir, agrupar y deshacer asociaciones; el análisis pide sensaciones ausentes y compara bloques. Los ajustes se muestran antes de aceptarlos y pueden deshacerse.
 - **Datos separados por usuario**, comprobados en el servidor.
 
 ## Ejecutarlo en tu ordenador
@@ -52,16 +52,25 @@ Estas reglas son orientativas; no constituyen una validación profesional del pl
 ## Comprobar que todo funciona
 
 ```sh
-node --test tests/*.test.mjs     # 66 pruebas: plan, fechas, duplicados, separación entre usuarios, interfaz…
-npx tsc --noEmit                 # tipos
-node scripts/smoke-local.mjs     # con el servidor arrancado: prueba HTTP de extremo a extremo
+npm test                        # regresiones: motor, datos, usuarios e interfaz
+npm run check:types              # tipos
+npm run verify:storage           # HTTP y D1 aislados: guardar, registrar, reiniciar y conflictos
+npm run verify:local             # servidor local arrancado: comprobaciones sin borrar datos
 ```
+
+La prueba de almacenamiento crea una base independiente en `.tools/` y usa el puerto 5174. `npm run verify:browser` recorre la interfaz si Chrome tiene depuración local habilitada en el puerto 9223; intercepta las peticiones de datos y no escribe en tu base. La captura de pantalla es opcional (`--screenshot`). Consulta los resultados y límites en [`docs/revision-fiabilidad.md`](docs/revision-fiabilidad.md).
 
 ## Strava
 
-La conexión con Strava está implementada (OAuth, tokens cifrados, caché de 7 días), pero **en local no funciona**. Para activarla necesitas registrar tu propia aplicación en Strava y configurar varias variables en el servidor; los pasos están en [`integrations/README-Strava.md`](integrations/README-Strava.md).
+La conexión con Strava está implementada (OAuth y tokens cifrados). En desarrollo existe una consulta local que no guarda sus actividades; en el despliegue se usa una caché temporal. La configuración y una autorización válida son necesarias: tener las variables completas no confirma que la conexión funcione. Los pasos están en [`integrations/README-Strava.md`](integrations/README-Strava.md).
 
-Aunque la conectes, la [política de la API de Strava](https://www.strava.com/legal/api_policy) vigente prohíbe analizar sus datos, usarlos con IA y guardarlos más de 7 días. Por eso Zancada solo te **muestra** tus carreras de Strava; el plan y las estadísticas usan las carreras que registras en la propia app.
+Aunque la conectes, la [política de la API de Strava](https://www.strava.com/legal/api_policy) vigente restringe analizar sus datos, usarlos con IA y guardarlos más de 7 días. Por eso Zancada solo te **muestra** tus carreras de Strava; el plan y las estadísticas usan registros manuales y archivos propios autorizados del dispositivo. Un archivo con origen API de Strava no puede usarse para este seguimiento.
+
+## Entrenador sin API obligatoria
+
+El chat visible en **Mi entrenador** responde por reglas locales con tu contexto y lo indica. Puedes activar Ollama en la versión PC, con consentimiento y comprobación del modelo; los fallos vuelven a reglas. Las propuestas muestran cambios antes de aceptar y permiten deshacer en Mi plan. La copia manual para ChatGPT sigue disponible aparte y no simula una conexión.
+
+Consulta [configuración, condiciones vigentes, instalación opcional y límites comprobados](docs/integraciones-entrenador.md). No se ha validado una cuenta real de Strava ni generación con un modelo instalado. ChatGPT y su API tienen acceso y facturación separados.
 
 ## Estructura
 
@@ -69,6 +78,7 @@ Aunque la conectes, la [política de la API de Strava](https://www.strava.com/le
 | --- | --- |
 | `app/` | Interfaz (React) y rutas del servidor (`app/api/…`) |
 | `lib/engine.mjs` | Motor del plan: sesiones, ritmos, viabilidad, ajustes |
+| `lib/planning-rules.mjs` | Reglas explícitas de carga, fases, distancia y fuentes técnicas |
 | `lib/training.mjs` | Revisión del plan, progreso, calendario exportable |
 | `lib/state-store.mjs` | Lectura y escritura de datos por usuario |
 | `lib/strava-*.mjs` | Integración con Strava |
@@ -78,6 +88,14 @@ Aunque la conectes, la [política de la API de Strava](https://www.strava.com/le
 Funciona sobre [vinext](https://github.com/cloudflare/vinext) (Next.js en Cloudflare Workers) con D1 como base de datos. Más detalles en [`LEEME-PRIMERO.md`](LEEME-PRIMERO.md) y [`docs/entorno-tecnico.md`](docs/entorno-tecnico.md).
 
 ## Limitaciones
+
+El cuestionario y el perfil comparten un resumen editable de datos medidos, estimaciones e información ausente. Consulta la [relación entre respuestas, decisiones del motor y pruebas](docs/cuestionario-corredor.md). Editar el perfil mantiene el calendario hasta aceptar su nueva propuesta.
+
+El motor funciona sin IA y documenta carga real, viabilidad, fases, recuperación, puesta a punto, métodos de ritmo y límites. Consulta las [reglas contrastadas con fuentes primarias y la comparación de perfiles](docs/motor-planificacion.md). Los calendarios anteriores se actualizan al aceptar una revisión.
+
+El calendario y el detalle muestran instrucciones por bloques, recuperaciones contadas, esfuerzo y alternativas concretas por cansancio. Consulta los [totales, conversiones y comprobaciones de las sesiones](docs/prescripcion-sesiones.md).
+
+El seguimiento conserva el calendario hasta aceptar un cambio. Consulta [reglas de interpretación, asociaciones, progresión comparable y recepción de archivos](docs/seguimiento-actividades.md), con formato JSON, API autenticada, límites y pruebas.
 
 - En local solo existe un usuario simulado. Para varias personas reales hace falta desplegarlo con un inicio de sesión seguro (ver `LEEME-PRIMERO.md`).
 - Los planes son orientativos y no sustituyen el consejo de un profesional, sobre todo si tienes molestias o lesiones.

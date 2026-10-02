@@ -73,3 +73,9 @@ intercambiar el código ni leer actividades hasta arrancar fuera de ese aislamie
    medición individual de recuperación.
 
 No se ha validado una conexión con una cuenta real hasta que completes OAuth.
+
+## Chat de entrenamiento sin servicios externos
+
+En **Mi entrenador** está visible el chat por reglas: usa tu contexto y no pide claves ni una suscripción de API. La consulta manual para ChatGPT está debajo, plegada.
+
+Ollama es opcional y requiere instalar y descargar un modelo, desactivar sus funciones cloud, configurarlo y conceder consentimiento. Los [pasos, requisitos y comprobaciones](docs/integraciones-entrenador.md#instalación-opcional-en-este-pc) explican cómo hacerlo sin modificar las credenciales existentes. Este PC dispone de 16 GB de RAM, pero no se ha probado inferencia real; Ollama no está instalado ahora. Si falta el modelo, sigue funcionando el chat por reglas.

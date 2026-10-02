@@ -12,7 +12,7 @@ no se puede activar en una compilación de producción mediante una variable.
 
 Implementado sobre el mismo sitio, sin sustituir perfiles, carreras manuales ni planes. El inicio de sesión sigue siendo individual con ChatGPT; la identidad procede del servidor de Sites. No se usan cuentas compartidas. Cada consulta de datos personales incluye el ID del usuario autenticado; el ID del atleta es único entre conexiones. Tokens AES-256-GCM con IV aleatorio y el ID de usuario como dato autenticado, almacenados solo en D1. Las tablas de Strava son nuevas; la migración no modifica runner_state.
 
-## Restricción vigente (revisión: 01/10/2026)
+## Restricción vigente (revisión: 02/10/2026)
 
 Revisadas la [política de la API](https://www.strava.com/legal/api_policy) y el [acuerdo de la API](https://www.strava.com/legal/api), ambos en vigor desde el 1 de junio de 2026:
 
@@ -26,7 +26,7 @@ Marca: el botón de conexión es el recurso oficial «Connect with Strava» (`pu
 
 La conexión es solo OAuth. Se ha retirado la ruta para pegar un access token manual, para que nadie pueda vincular una cuenta con el token de otra persona. `StravaService.ownToken` se conserva únicamente como utilidad de pruebas en el servidor.
 
-El periodo consultado (90 días por defecto, 30/90/180/365 disponibles) no es el periodo de retención. Cada respuesta se conserva como máximo siete días; purga antes de lectura y trabajo periódico. Las notas escritas por el usuario se guardan aparte y sobreviven sin métricas, fecha, identificador ni enlace externo si se elimina o caduca la actividad. Desconectar elimina caché, tokens y trabajos inmediatamente. Borrar todos los datos elimina también notas y ajustes; confirma el borrado en la aplicación.
+El periodo consultado (7 días por defecto, 7/30/90/180/365 disponibles) no es el periodo de retención. Cada respuesta se conserva como máximo siete días; purga antes de lectura y trabajo periódico. Las notas escritas por el usuario se guardan aparte y sobreviven sin métricas, fecha, identificador ni enlace externo si se elimina o caduca la actividad. Desconectar elimina caché, tokens y trabajos inmediatamente. Borrar todos los datos elimina también notas y ajustes; confirma el borrado en la aplicación.
 
 ## Configuración externa pendiente
 
@@ -71,3 +71,11 @@ Referencias: [OAuth](https://developers.strava.com/docs/authentication/), [webho
 ## Verificación ejecutable
 
 `node tests/strava.test.mjs` comprueba cifrado e identidad, dos usuarios, unidades/fecha local, pulsaciones ausentes, deduplicación, updates/deletes con notas, OAuth state/cookie/replay, rotación del refresh token, desconexión, caché siete días y límites/reintentos con un servidor Strava simulado. No constituye una autorización ni una prueba contra Strava real. `node --test tests/*.test.mjs` valida además el motor anterior. TypeScript y build de producción verifican integración de rutas y componentes.
+
+## Estados y verificación de esta revisión
+
+OAuth con permisos comprobados puede quedar en «Sincronizando» hasta completar la consulta. Una cuenta vinculada y una fecha antigua no demuestran acceso vigente; se muestran comprobación pendiente, permisos insuficientes, credenciales no disponibles y consulta incompleta. Los permisos concedidos por el proveedor prevalecen sobre los anunciados en el retorno OAuth. Reautorizar limpia caché y trabajos anteriores, conservando notas y otras personas.
+
+La renovación concurrente usa el token más reciente y guarda la pareja rotada cifrada antes de consultar actividades. La variable de retención es configuración declarada: una fecha de limpieza reciente solo aparece tras ejecutar realmente el trabajo de fondo. Quedan pendientes OAuth, cron y webhooks reales del despliegue.
+
+Consulta la [revisión conjunta de Strava y del entrenador](../docs/integraciones-entrenador.md). El host nuevo del [changelog](https://developers.strava.com/docs/changelog/) está anunciado para enero de 2027; no se utiliza anticipadamente. Revisa las condiciones, capacidad y cuotas actuales de tu aplicación en Strava.

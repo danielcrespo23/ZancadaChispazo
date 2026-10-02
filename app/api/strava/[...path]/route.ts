@@ -2,7 +2,7 @@ import {env} from 'cloudflare:workers';
 import {getChatGPTUser} from '../../../chatgpt-auth';
 import {stravaService} from '../../../../lib/strava-runtime';
 import {oauthCookie,oauthCookieValue,stravaDiagnostic} from '../../../../lib/strava-diagnostics.mjs';
-import {randomSecret,ProviderError} from '../../../../lib/strava-core.mjs';
+import {STRAVA_API,randomSecret,ProviderError} from '../../../../lib/strava-core.mjs';
 export const dynamic='force-dynamic';
 const json=(value:unknown,status=200)=>Response.json(value,{status,headers:{'Cache-Control':'no-store','Referrer-Policy':'no-referrer'}});
 const messages:Record<string,string>={authorization_denied:'Has cancelado la autorización en Strava. Puedes volver a conectar cuando quieras.',connection_busy:'Espera unos segundos antes de volver a validar una conexión.',configuration_pending:'Falta configurar la aplicación de Strava en el servidor.',retention_pending:'Falta activar y comprobar el proceso de limpieza y sincronización del servidor.',invalid_oauth_state:'La autorización ha caducado o pertenece a otra sesión. Vuelve a conectar.',athlete_already_linked:'Esta cuenta de Strava ya está asociada a otro usuario de Zancada.',disconnect_first:'Desconecta la cuenta anterior antes de conectar otra.',authorization_expired:'La autorización ha caducado. Vuelve a conectar Strava.',insufficient_permissions:'Strava no ha concedido los permisos de lectura necesarios.',not_connected:'Conecta tu cuenta antes de sincronizar.',invalid_token:'Introduce un access token válido.',invalid_note:'Revisa esfuerzo, fatiga y molestias.',not_found:'No se encuentra esta actividad en tu cuenta.'};
@@ -20,16 +20,16 @@ export async function GET(request:Request){const parts=path(request),service=str
   let network:any;
   try{
    // No token is sent: 401 is the expected authenticated-endpoint response.
-   const probe=await service.fetcher('https://www.strava.com/api/v3/athlete',{signal:AbortSignal.timeout(8000)});
+   const probe=await service.fetcher(STRAVA_API+'/athlete',{signal:AbortSignal.timeout(8000)});
    network={reachable:true,httpStatus:probe.status};
    stravaDiagnostic({stage:'network_probe',outcome:'reachable',httpStatus:probe.status});
   }catch(e:any){
    network={reachable:false,code:e.cause?.code==='EACCES'?'network_blocked':e.name==='TimeoutError'?'network_timeout':'network_unreachable'};
    stravaDiagnostic({stage:'network_probe',outcome:network.code});
   }
-  return json({network,configured:service.configured(),connected:Boolean(connection),localLive:service.localLive,scopes:connection?JSON.parse(connection.scopes):[],lastSync:connection?.last_sync||null});
+  return json({network,configured:service.configured(),accountLinked:Boolean(connection),connected:false,verification:'La comprobación de red no valida el token ni confirma conexión.',localLive:service.localLive,scopes:connection?JSON.parse(connection.scopes):[],lastSync:connection?.last_sync||null});
  }
- if(parts[0]==='callback'){const url=new URL(request.url),cookie=oauthCookieValue(request);let code='connected';try{if(url.searchParams.get('error'))throw Error('authorization_denied');const initial:any=await service.finish(user.userId,url.searchParams.get('state')||'',cookie,url.searchParams.get('code')||'',url.searchParams.get('scope')||'');if(initial?.error)code='sync_failed';stravaDiagnostic({stage:'callback',outcome:code});}catch(e:any){stravaDiagnostic({stage:'callback',outcome:e instanceof ProviderError?e.message:messages[e.message]?e.message:'connection_error',httpStatus:e.status||0,cookiePresent:Boolean(cookie)});code=messages[e.message]?e.message:e instanceof ProviderError?e.message:'connection_error';}return new Response(null,{status:303,headers:{Location:`/?strava=${encodeURIComponent(code)}`,'Set-Cookie':oauthCookie(request,'',{local:service.localLive,clear:true}),'Cache-Control':'no-store','Referrer-Policy':'no-referrer'}});}
+ if(parts[0]==='callback'){const url=new URL(request.url),cookie=oauthCookieValue(request);let code='connected';try{if(url.searchParams.get('error'))throw Error('authorization_denied');const initial:any=await service.finish(user.userId,url.searchParams.get('state')||'',cookie,url.searchParams.get('code')||'',url.searchParams.get('scope')||'');if(initial?.error)code='sync_failed';else if(!initial?.syncCompleted)code='authorized';stravaDiagnostic({stage:'callback',outcome:code});}catch(e:any){stravaDiagnostic({stage:'callback',outcome:e instanceof ProviderError?e.message:messages[e.message]?e.message:'connection_error',httpStatus:e.status||0,cookiePresent:Boolean(cookie)});code=messages[e.message]?e.message:e instanceof ProviderError?e.message:'connection_error';}return new Response(null,{status:303,headers:{Location:`/?strava=${encodeURIComponent(code)}`,'Set-Cookie':oauthCookie(request,'',{local:service.localLive,clear:true}),'Cache-Control':'no-store','Referrer-Policy':'no-referrer'}});}
  return json({error:'No disponible'},404);
  }catch(e){return failure(e);}}
 export async function POST(request:Request){const parts=path(request),service=stravaService(request),config=cfg();try{
