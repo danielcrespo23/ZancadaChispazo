@@ -1,0 +1,13 @@
+.git
+node_modules
+dist
+.vinext
+.next
+.wrangler
+.sites-runtime
+.tools
+.agents
+.codex
+outputs
+work
+coverage
