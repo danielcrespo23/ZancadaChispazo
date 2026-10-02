@@ -70,6 +70,36 @@ Eliminar `.wrangler/state` elimina la base de datos local.
 Usa `npm run dev` para esta prueba: `npm start` previsualiza el Worker compilado, pero no simula el inicio de sesión local.
 Esta prueba local no ofrece cuentas reales para varias personas ni sustituye el inicio de sesión seguro del despliegue.
 
+## Probar en tu ordenador con Docker
+
+Alternativa a los pasos de arriba si no quieres instalar Node en tu máquina. Necesitas
+[Docker Desktop](https://www.docker.com/products/docker-desktop/) instalado y en marcha.
+
+1. Abre una terminal en la carpeta del proyecto y ejecuta:
+
+```sh
+docker compose up --build
+```
+
+La primera vez tarda uno o dos minutos (instala dependencias dentro del contenedor). Las
+siguientes veces es casi instantáneo.
+
+2. Abre `http://127.0.0.1:5173/`. Edita el código normalmente desde tu editor: el contenedor
+   detecta los cambios y recarga solo, igual que con `npm run dev`.
+3. Para apagarlo: `Ctrl+C`, o `docker compose down` desde otra terminal.
+
+**Limitación conocida:** el inicio de sesión simulado de Seedy (el paso 6 de más arriba)
+comprueba que la conexión llega literalmente desde `127.0.0.1` — es una medida de seguridad del
+propio proyecto, no de Docker. El reenvío de puertos de Docker no preserva esa dirección, así
+que **dentro de Docker te quedas en la pantalla de inicio de sesión sin poder entrar**. Para
+probar la aplicación ya autenticado como Seedy, usa `npm run dev` directamente (sección
+anterior). Docker sirve para arrancar rápido, compilar, y ejecutar las pruebas (`docker compose
+run --rm zancada node --test tests/*.test.mjs`) sin instalar nada más que Docker.
+
+Los datos y las dependencias instaladas dentro del contenedor viven en un volumen propio de
+Docker (no se mezclan con tu carpeta de Windows, porque algunas piezas son binarios compilados
+específicos de Linux). Para borrarlos y empezar de cero: `docker compose down -v`.
+
 ## IA y Strava: estado real
 
 - Los planes funcionan con reglas locales, sin un servicio de IA.
