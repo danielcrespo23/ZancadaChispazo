@@ -11,6 +11,21 @@ const localFullName = "Seedy";
 const localCookieName = "__sites_local_auth";
 const localHosts = new Set(["localhost", "127.0.0.1", "::1"]);
 const localAddresses = new Set(["127.0.0.1", "::1", "::ffff:127.0.0.1"]);
+// Docker's port-forwarding NATs the real loopback address even when the host
+// port is published to 127.0.0.1 only (docker-compose.yml), so the socket
+// never shows up as a literal localAddresses match from inside the
+// container. DOCKER_LOCAL_DEV is set only by docker-compose.yml for this
+// local dev setup, never in production, so this only widens trust within
+// that one container's own private bridge network.
+const dockerLocalDev = process.env.DOCKER_LOCAL_DEV === "1";
+const dockerBridgeAddressRE =
+  /^(?:::ffff:)?(?:10\.\d{1,3}\.\d{1,3}\.\d{1,3}|172\.(?:1[6-9]|2\d|3[01])\.\d{1,3}\.\d{1,3}|192\.168\.\d{1,3}\.\d{1,3})$/;
+function isTrustedAddress(remoteAddress: string): boolean {
+  return (
+    localAddresses.has(remoteAddress) ||
+    (dockerLocalDev && dockerBridgeAddressRE.test(remoteAddress))
+  );
+}
 const authPaths = new Set([
   "/signin-with-chatgpt",
   "/signout-with-chatgpt",
@@ -72,7 +87,7 @@ export function sites({ mockAuth = true } = {}): Plugin {
           .toLowerCase();
         if (
           !localHosts.has(hostname) ||
-          !localAddresses.has(request.socket.remoteAddress ?? "") ||
+          !isTrustedAddress(request.socket.remoteAddress ?? "") ||
           url.origin !== authority.origin
         ) {
           if (authPaths.has(url.pathname)) respond(response, 403);
