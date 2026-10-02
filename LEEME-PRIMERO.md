@@ -84,17 +84,25 @@ docker compose up --build
 La primera vez tarda uno o dos minutos (instala dependencias dentro del contenedor). Las
 siguientes veces es casi instantáneo.
 
-2. Abre `http://127.0.0.1:5173/`. Edita el código normalmente desde tu editor: el contenedor
-   detecta los cambios y recarga solo, igual que con `npm run dev`.
-3. Para apagarlo: `Ctrl+C`, o `docker compose down` desde otra terminal.
+2. Abre `http://127.0.0.1:5173/`. Entra con el inicio de sesión simulado de Seedy igual que en
+   la sección anterior.
+3. Edita el código normalmente desde tu editor: el contenedor detecta los cambios y recarga
+   solo, igual que con `npm run dev`.
+4. Para apagarlo: `Ctrl+C`, o `docker compose down` desde otra terminal.
 
-**Limitación conocida:** el inicio de sesión simulado de Seedy (el paso 6 de más arriba)
-comprueba que la conexión llega literalmente desde `127.0.0.1` — es una medida de seguridad del
-propio proyecto, no de Docker. El reenvío de puertos de Docker no preserva esa dirección, así
-que **dentro de Docker te quedas en la pantalla de inicio de sesión sin poder entrar**. Para
-probar la aplicación ya autenticado como Seedy, usa `npm run dev` directamente (sección
-anterior). Docker sirve para arrancar rápido, compilar, y ejecutar las pruebas (`docker compose
-run --rm zancada node --test tests/*.test.mjs`) sin instalar nada más que Docker.
+También puedes ejecutar las pruebas dentro del contenedor, sin instalar nada más que Docker:
+
+```sh
+docker compose run --rm zancada node --test tests/*.test.mjs
+```
+
+**Nota de seguridad:** el inicio de sesión simulado de Seedy comprueba que la conexión llega
+desde `127.0.0.1`, para que ese acceso de prueba no sea alcanzable desde la red. El reenvío de
+puertos de Docker cambia esa dirección por la de su propia red interna, así que
+`build/sites-vite-plugin.ts` acepta también esa dirección interna, pero solo cuando la variable
+`DOCKER_LOCAL_DEV=1` está activa (la pone `docker-compose.yml`, nunca está presente fuera de
+Docker). El puerto sigue publicado únicamente en `127.0.0.1:5173` (ver `docker-compose.yml`), así
+que nadie fuera de tu PC puede llegar a él igual que antes.
 
 Los datos y las dependencias instaladas dentro del contenedor viven en un volumen propio de
 Docker (no se mezclan con tu carpeta de Windows, porque algunas piezas son binarios compilados
