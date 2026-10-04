@@ -9,6 +9,7 @@ import {empty,blankProfile,today,addDays,session,recordActivity,associateActivit
 import {buildPlanPreview,acceptPlanPreview,weekSummary,sessionStatus} from '../lib/training.mjs';
 import {localActivityDate} from '../lib/activity-source.mjs';
 import {withAIConsent,hasAIConsent} from '../lib/coach-consent.mjs';
+import {verifyPersistedUI} from './verify-persisted-ui.mjs';
 
 const root=fileURLToPath(new URL('../',import.meta.url)),id=randomUUID();
 const directory=resolve(root,`.tools/verify-${id}`),store=resolve(directory,'state'),origin='http://127.0.0.1:5174';
@@ -93,5 +94,6 @@ try{
  const absent=await coachCall('POST',{...question,mode:'ollama',revision:8},write);assert.equal(absent.status,200);assert.equal(absent.data.mode,'rules');assert.equal(absent.data.generationVerified,false);assert.equal(JSON.stringify((await call('GET')).data.state.plan),beforeCoach);
  await stop();await start();assert(hasAIConsent((await call('GET')).data.state));assert.equal((await call('GET')).data.revision,8);
  state=withAIConsent(state,false);assert.equal((await call('PUT',{state,revision:8},write)).status,200);assert.equal((await coachCall('POST',tool,write,'/mcp')).data.result.isError,true);assert.equal(JSON.stringify((await call('GET')).data.state.plan),beforeCoach);
+ if(process.argv.includes('--browser')){const before=(await call('GET')).data;console.log(JSON.stringify(await verifyPersistedUI(origin,before.state)));assert.deepEqual((await call('GET')).data,before);}
  console.log(JSON.stringify({result:'PASS',scope:'Isolated HTTP server and real D1; original database untouched',checks:['save profile/goal/plan','record activity','read persisted state','server restart','stale revision','erasure/recreation protection','authentication','request origin','authorized HTTP reception','local midnight','unknown sensations','idempotent duplicates','blocked Strava origin','explicit group and notes persist','revision notifications','contextual rules without model','coach and MCP consent gates','consent survives restart','revocation stops MCP','no calendar change from chat']}));
 }finally{await stop();}

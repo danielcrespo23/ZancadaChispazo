@@ -20,6 +20,7 @@ export default function ActivityFollowup({state,activityId,onSave,onEdit,busy}:{
  return <div className="activity-followup">
   <p><b>{activityLabel(activity,state)}</b> · {activity.date} · {activitySourceLabel(activity)}{members.length>1?` · ${members.length} registros agrupados`:''}</p>
   <p>{data.purpose}</p>{data.context&&<p>{data.context}</p>}
+  <section className="followup-decision" aria-label="Qué cambia después de esta carrera"><h3>Qué cambia en tu plan</h3><p>{data.decision}</p><p>{data.nextAdvice}</p></section>
   <div className="table-scroll"><table className="followup-comparison"><thead><tr><th>Dato</th><th>Previsto</th><th>Realizado</th></tr></thead><tbody>
    <tr><th>Tipo</th><td>{before?labelType(before.type):'Sin sesión vinculada'}</td><td>{labelType(actual.type)}</td></tr>
    <tr><th>Distancia</th><td>{before?.distance!=null?distanceText(before.distance):before?'Por tiempo':'—'}</td><td>{distanceText(actual.distance)}</td></tr>
@@ -31,7 +32,7 @@ export default function ActivityFollowup({state,activityId,onSave,onEdit,busy}:{
   {data.blocks.rows.length>0&&<><h3>Bloques previstos y realizados</h3><div className="table-scroll"><table className="followup-comparison"><thead><tr><th>Bloque</th><th>Previsto</th><th>Realizado</th><th>Lectura</th></tr></thead><tbody>{data.blocks.rows.map((row:{label:string,planned:string,actual:string,matches:boolean},i:number)=><tr key={i}><th>{row.label}</th><td>{row.planned}</td><td>{row.actual}</td><td>{row.matches?'Compatible':'Con cambios'}</td></tr>)}</tbody></table></div></>}
   <h3>Datos que apoyan esta lectura</h3>{data.evidence.length?<ul>{data.evidence.map((text:string)=><li key={text}>{text}</li>)}</ul>:<p>Solo conocemos el registro; no hay una sesión prevista para comparar.</p>}
   {data.missing.length>0&&<><h3>Información que falta</h3><ul>{data.missing.map((text:string)=><li key={text}>{text}</li>)}</ul><button onClick={()=>onEdit(activity)}>Completar sensaciones y bloques</button></>}
-  <h3>La siguiente sesión</h3><p>{data.nextAdvice}</p><p>{data.reason}</p><p>{data.progress}</p><p className="detail-note">{data.decision}</p>
+  <h3>La siguiente sesión</h3><p>{data.reason}</p><p>{data.progress}</p>
   <details className="association-editor spaced"><summary>Corregir, agrupar o desvincular actividades</summary>
    <p>Selecciona los registros que forman esta sesión y el papel de cada uno. Se suman para comparar; sus fechas, medidas y notas se mantienen por separado.</p>
    <label>Sesión prevista<select value={target} onChange={e=>setTarget(e.target.value)}><option value="">Selecciona una sesión</option>{state.plan?.sessions.filter(s=>s.date<=today()&&!['rest','strength'].includes(s.type)).map(s=><option key={s.id} value={s.id}>{s.date} · {labelType(s.type)}</option>)}</select></label>

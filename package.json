@@ -19,7 +19,8 @@
     "verify:browser": "node scripts/verify-running-browser.mjs",
     "verify:followup": "node scripts/verify-followup-browser.mjs",
     "db:generate": "drizzle-kit generate",
-    "verify:integrations": "node scripts/verify-integrations-browser.mjs"
+    "verify:integrations": "node scripts/verify-integrations-browser.mjs",
+    "verify:experience": "node scripts/verify-experience-browser.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
