@@ -113,7 +113,7 @@ try{
  // A network failure must remain visible after navigation, retain changes, and allow retry.
  await button('Ajustes');await until(`document.body.textContent.includes('Ajustes del entrenador')`,'settings');assert(await evaluate(`document.body.textContent.includes('sin modificar automáticamente las siguientes sesiones')`));
  await button('Perfil y objetivo');await until(`!!document.querySelector('.profile-form')`,'failed profile write');failNextWrite=true;await field('Fatiga habitual estos días',4);await button('Guardar perfil y objetivo');
- await until(`document.body.textContent.includes('Fallo de guardado simulado')`,'failed persistence');
+ await until(`document.body.textContent.includes('los cambios pendientes siguen en pantalla')`,'failed persistence');
  await button('Inicio');assert(await evaluate(`document.body.textContent.includes('Hay cambios sin guardar')&&document.body.textContent.includes('Reintentar guardado')`));
  await button('Reintentar guardado');await until(`document.querySelector('.save-state')?.textContent==='Datos guardados'`,'retry persistence');assert.equal(saved.profile.fatigue,'4');
  // Editing demo data and leaving it cannot populate a real activity form.

@@ -5,6 +5,16 @@ ventana del servidor abierta mientras usas la aplicación. Ctrl+C lo detiene.
 Esta instalación incluye un ejecutable de Node en `.tools`, excluido de Git.
 Si distribuyes solo el código, instala Node.js 22.13 o posterior y las dependencias.
 
+Inicio distingue la sesión de hoy del descanso y de la próxima sesión. Pulsa
+**Ver entrenamiento** para sus instrucciones y motivo, o **Ver qué cambia tras
+mi carrera** para revisar el registro. El plan conserva su calendario hasta
+aceptar una propuesta. Si termina el bloque, puedes revisar el siguiente objetivo.
+
+En el móvil tienes **Inicio, Plan, Registrar, Progreso y Más**. Abre **Más** para
+entrar al entrenador, editar tu perfil o consultar ajustes. En el registro, las
+pulsaciones, pausas y desnivel están en **Datos opcionales**; déjalos vacíos si no
+los conoces. Consulta [la revisión y sus pruebas](docs/revision-experiencia.md).
+
 ## Strava sin servidor público
 
 En el panel de tu aplicación de Strava configura:

@@ -8,6 +8,8 @@ Aplicación web de entrenamiento de running que crea un plan personal según tu 
 - **Seguimiento**: registra carreras o recibe archivos propios autorizados. Estadísticas y calendario distinguen completadas, realizadas con cambios, sin vincular y adicionales. Puedes corregir, agrupar y deshacer asociaciones; el análisis pide sensaciones ausentes y compara bloques. Los ajustes se muestran antes de aceptarlos y pueden deshacerse.
 - **Datos separados por usuario**, comprobados en el servidor.
 
+En **Inicio** puedes ver qué toca hoy, su propósito y cómo realizarlo. Después de registrar una carrera, el análisis explica primero qué implica para el plan. En móvil, **Más** abre entrenador, perfil y ajustes; las cinco acciones principales quedan siempre disponibles.
+
 ## Ejecutarlo en tu ordenador
 
 Necesitas **Node.js 22.13 o posterior** ([descarga](https://nodejs.org/)) y conexión a Internet para instalar las dependencias. Los comandos son los mismos en Windows (PowerShell), macOS y Linux.
@@ -55,10 +57,13 @@ Estas reglas son orientativas; no constituyen una validación profesional del pl
 npm test                        # regresiones: motor, datos, usuarios e interfaz
 npm run check:types              # tipos
 npm run verify:storage           # HTTP y D1 aislados: guardar, registrar, reiniciar y conflictos
+npm run verify:storage -- --browser # añade cerrar/reabrir Chrome con lecturas reales de D1
 npm run verify:local             # servidor local arrancado: comprobaciones sin borrar datos
 ```
 
 La prueba de almacenamiento crea una base independiente en `.tools/` y usa el puerto 5174. `npm run verify:browser` recorre la interfaz si Chrome tiene depuración local habilitada en el puerto 9223; intercepta las peticiones de datos y no escribe en tu base. La captura de pantalla es opcional (`--screenshot`). Consulta los resultados y límites en [`docs/revision-fiabilidad.md`](docs/revision-fiabilidad.md).
+
+La [revisión completa de experiencia](docs/revision-experiencia.md) mantiene problemas, impacto, criterios de aceptación, doce escenarios y resultados comprobados. `npm run verify:experience -- http://127.0.0.1:5273` comprueba el flujo con datos aislados; `--audit-only` comprueba contraste y controles en siete pantallas, dos temas y tres anchuras. Sustituye la dirección por tu servidor local.
 
 ## Strava
 
