@@ -5,7 +5,7 @@ import {mkdirSync,readFileSync,writeFileSync,readdirSync} from 'node:fs';
 import {fileURLToPath} from 'node:url';
 import {resolve} from 'node:path';
 import {randomUUID} from 'node:crypto';
-import {empty,blankProfile,today,addDays,session,recordActivity,associateActivities} from '../lib/engine.mjs';
+import {empty,blankProfile,today,addDays,session,recordActivity,associateActivities,decideTrainingProposal} from '../lib/engine.mjs';
 import {buildPlanPreview,acceptPlanPreview,weekSummary,sessionStatus} from '../lib/training.mjs';
 import {localActivityDate} from '../lib/activity-source.mjs';
 import {withAIConsent,hasAIConsent} from '../lib/coach-consent.mjs';
@@ -132,6 +132,26 @@ try{
  assert.deepEqual(calibratedRow.state.activities,reviewBase.state.activities);
  assert.deepEqual(calibratedRow.state.profile,reviewBase.state.profile);
  const acceptedReview=(await call('GET')).data;await stop();await start();assert.deepEqual((await call('GET')).data,acceptedReview,'accepted review survives restart');
+ // Real authenticated chat follow-up, then replay its draft directly over HTTP.
+ // No browser control is involved in these acceptance checks.
+ let coachRow=(await call('GET')).data;
+ const fatigue=await coachCall('POST',{question:'No tengo dolor, pero estoy cansado',mode:'rules',revision:coachRow.revision},write);
+ assert.equal(fatigue.status,200);assert.match(fatigue.data.answer,/por separado/);assert(fatigue.data.conversationId);assert.equal(fatigue.data.proposal,null);
+ const scored=await coachCall('POST',{question:'8/10',mode:'rules',revision:coachRow.revision,conversationId:fatigue.data.conversationId},write);
+ assert.equal(scored.status,200);assert.match(scored.data.answer,/Fatiga declarada.*8\/10/);assert(scored.data.proposal);assert.equal(scored.data.calendarChanged,false);assert.deepEqual((await call('GET')).data,coachRow);
+ const pendingCoach={...coachRow.state,proposals:[...coachRow.state.proposals,scored.data.proposal]};
+ assert.equal((await call('PUT',{state:pendingCoach,revision:coachRow.revision},write)).status,200);
+ coachRow=(await call('GET')).data;assert.deepEqual(coachRow.state.plan,acceptedReview.state.plan);
+ const acceptedCoach=decideTrainingProposal(coachRow.state,scored.data.proposal.id,true),changedCoach={...coachRow.state,checkIns:[...(coachRow.state.checkIns||[]).filter(c=>c.date!==today()),{date:today(),pain:'relevant',fatigue:8}]};
+ assert.equal((await call('PUT',{state:changedCoach,revision:coachRow.revision},write)).status,200);
+ const changedRow=(await call('GET')).data;
+ const staleCoach=await call('PUT',{state:{...changedCoach,plan:acceptedCoach.plan,proposals:acceptedCoach.proposals,changes:acceptedCoach.changes},revision:changedRow.revision},write);
+ assert.equal(staleCoach.status,409);assert.equal(staleCoach.data.code,'stale_coach_proposal');assert.equal(staleCoach.data.recalculate,true);assert.deepEqual((await call('GET')).data,changedRow);
+ const staleFollow=await coachCall('POST',{question:'8/10',mode:'rules',revision:changedRow.revision,conversationId:scored.data.conversationId},write);assert.equal(staleFollow.status,200);assert.equal(staleFollow.data.contextReset,true);assert.equal(staleFollow.data.proposal,null);
+ assert.equal((await call('PUT',{state:coachRow.state,revision:changedRow.revision},write)).status,200);const restoredCoach=(await call('GET')).data;
+ assert.equal((await call('PUT',{state:acceptedCoach,revision:restoredCoach.revision},write)).status,200,'fresh reviewed chat draft accepts through server validation');
+ const afterCoach=(await call('GET')).data;assert.deepEqual(afterCoach.state.activities,coachRow.state.activities);assert.equal(afterCoach.state.proposals.find(p=>p.id===scored.data.proposal.id).status,'accepted');
+ await stop();await start();assert.deepEqual((await call('GET')).data,afterCoach,'coach acceptance survives restart');
  if(process.argv.includes('--browser')){const before=(await call('GET')).data;console.log(JSON.stringify(await verifyPersistedUI(origin,before.state)));assert.deepEqual((await call('GET')).data,before);}
- console.log(JSON.stringify({result:'PASS',scope:'Isolated HTTP server and real D1; original database untouched',checks:['save profile/goal/plan','record activity','read persisted state','server restart','stale revision','erasure/recreation protection','authentication','request origin','authorized HTTP reception','local midnight','unknown sensations','idempotent duplicates','blocked Strava origin','explicit group and notes persist','revision notifications','contextual rules without model','coach and MCP consent gates','consent survives restart','revocation stops MCP','no calendar change from chat','same-day stale preview after pain, availability, activity and goal changes','current HTTP revision cannot bypass preview revalidation','valid review acceptance and restart']}));
+ console.log(JSON.stringify({result:'PASS',scope:'Isolated HTTP server and real D1; original database untouched',checks:['save profile/goal/plan','record activity','read persisted state','server restart','stale revision','erasure/recreation protection','authentication','request origin','authorized HTTP reception','local midnight','unknown sensations','idempotent duplicates','blocked Strava origin','explicit group and notes persist','revision notifications','contextual rules without model','coach and MCP consent gates','consent survives restart','revocation stops MCP','no calendar change from chat','same-day stale preview after pain, availability, activity and goal changes','current HTTP revision cannot bypass preview revalidation','valid review acceptance and restart','authenticated coach nonce and scored follow-up','chat draft stored without calendar modification','stale coach acceptance rejected with latest HTTP revision','changed state invalidates coach follow-up','valid explicit coach acceptance and restart']}));
 }finally{await stop();}

@@ -1,0 +1,8 @@
+// Deterministic dates and fictitious data; no database, model or remote API.
+import {coachFixture,withIntervals,start} from '../tests/helpers/coach-fixture.mjs';
+import {chatReply} from '../lib/coach-chat.mjs';
+const state=coachFixture(),options={start,scopeKey:'example:real'},ask=(s,q,context=null)=>chatReply(s,{question:q,mode:'rules'},{},fetch,{...options,context});
+const questions=['¿Por qué hoy tengo este entrenamiento?','Ayer hice CrossFit; ¿qué cambia?','No tengo dolor, pero estoy cansado','¿Puedo cambiar la tirada al viernes?','¿Qué parte de los intervalos estoy haciendo demasiado rápido?','¿Por qué mi plan todavía no ha cambiado?','¿Qué referencia necesitas para ajustar mis ritmos?'],examples=[];
+for(const question of questions){const r=await ask(state,question);examples.push({question,answer:r.answer,proposal:r.proposal?{source:r.proposal.source,status:r.proposal.status,changes:r.proposal.changes.map(c=>({before:{date:c.before.date,type:c.before.type,distance:c.before.distance,seconds:c.before.seconds},after:{date:c.after.date,type:c.after.type,distance:c.after.distance,seconds:c.after.seconds}}))}:null});}
+const fatigue=await ask(state,questions[2]),score=await ask(state,'8/10',fatigue.context),intervals=await ask(withIntervals(),questions[4]);
+console.log(JSON.stringify({date:start,scope:'Fictitious regular runner, 36 km/week, half marathon 2027-01-25; no personal data writes',examples,followUp:{question:'8/10',answer:score.answer,proposedDate:score.proposal?.after.date,proposedType:score.proposal?.after.type},linkedIntervals:{question:questions[4],answer:intervals.answer}},null,2));

@@ -73,7 +73,9 @@ Aunque la conectes, la [política de la API de Strava](https://www.strava.com/le
 
 ## Entrenador sin API obligatoria
 
-El chat visible en **Mi entrenador** responde por reglas locales con tu contexto y lo indica. Puedes activar Ollama en la versión PC, con consentimiento y comprobación del modelo; los fallos vuelven a reglas. Las propuestas muestran cambios antes de aceptar y permiten deshacer en Mi plan. La copia manual para ChatGPT sigue disponible aparte y no simula una conexión.
+El chat visible en **Mi entrenador** explica sesiones por fecha, revisa CrossFit y cansancio, compara vueltas de intervalos y pide referencias para calibrar ritmos. Distingue negaciones y varias preguntas; separa observación, inferencia, propuesta y datos que faltan. El seguimiento breve pertenece a tu cuenta y se revalida cuando cambian tus datos. Guardar una propuesta conserva el calendario; la aceptación en Mi plan vuelve a comprobarla en el motor y el servidor.
+
+Puedes activar Ollama en la versión PC, con consentimiento y comprobación del modelo; su JSON solo selecciona análisis de la consulta y acciones permitidas. Una respuesta inválida vuelve a reglas sin acciones del modelo. La copia manual para ChatGPT sigue disponible aparte y no simula una conexión. Consulta los [casos reproducidos y pruebas del chat](docs/revision-chat-entrenador.md); `node scripts/reproduce-coach-dialog.mjs` genera los siete ejemplos con datos ficticios.
 
 Consulta [configuración, condiciones vigentes, instalación opcional y límites comprobados](docs/integraciones-entrenador.md). No se ha validado una cuenta real de Strava ni generación con un modelo instalado. ChatGPT y su API tienen acceso y facturación separados.
 
