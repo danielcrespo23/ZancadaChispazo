@@ -2,10 +2,10 @@
 import React,{useState} from 'react';
 import {analysisForActivity,associateActivities,today,TYPES,undoActivityAssociation} from '../lib/engine.mjs';
 import {activityLabel} from '../lib/activity-evidence.mjs';
-import {activitySourceLabel,isTrainingActivity} from '../lib/activity-source.mjs';
+import {activitySourceLabel,isTrainingActivity,activityTimeLabel} from '../lib/activity-source.mjs';
 import {distanceText,durationText} from '../lib/session-instructions.mjs';
 
-export type FollowupActivity={id:string,date:string,type:string,distance:number,seconds:number,sessionId?:string,groupId?:string,partRole?:string,notes?:string,rpe?:number|null,fatigue?:number|null,pain?:string,feeling?:string,name?:string,startedAt?:string,source?:string};
+export type FollowupActivity={id:string,date:string,type:string,distance:number,seconds:number,sessionId?:string,groupId?:string,partRole?:string,notes?:string,rpe?:number|null,fatigue?:number|null,pain?:string,feeling?:string,name?:string,startedAt?:string,source?:string,importSources?:{key:string,fileName?:string,format?:string,notes?:string,original?:unknown,evidence?:unknown}[]};
 export type FollowupState={activities:FollowupActivity[],profile?:{timezone?:string}|null,plan?:{sessions:{id:string,date:string,type:string}[]}|null,changes:{id:string,undoOf?:string,activityAssociations?:{after:{id:string}[]}}[]};
 const labelType=(type:string)=>TYPES[type as keyof typeof TYPES]||'Tipo sin confirmar';
 const feeling=(value:string)=>({bien:'Bien',normal:'Normal',pesado:'Piernas pesadas',mal:'Mal'}[value]||'Sin confirmar');
@@ -24,11 +24,12 @@ export default function ActivityFollowup({state,activityId,onSave,onEdit,busy}:{
   <div className="table-scroll"><table className="followup-comparison"><thead><tr><th>Dato</th><th>Previsto</th><th>Realizado</th></tr></thead><tbody>
    <tr><th>Tipo</th><td>{before?labelType(before.type):'Sin sesión vinculada'}</td><td>{labelType(actual.type)}</td></tr>
    <tr><th>Distancia</th><td>{before?.distance!=null?distanceText(before.distance):before?'Por tiempo':'—'}</td><td>{distanceText(actual.distance)}</td></tr>
-   <tr><th>Duración</th><td>{before&&!before.durationUnknown?`${durationText(before.seconds)} (${before.estimated?'estimada':'prescrita'})`:'Sin referencia'}</td><td>{durationText(actual.seconds)} en movimiento{actual.elapsedSeconds!=null?`; ${durationText(actual.elapsedSeconds)} con pausas`:''}</td></tr>
+   <tr><th>Duración</th><td>{before&&!before.durationUnknown?`${durationText(before.seconds)} (${before.estimated?'estimada':'prescrita'})`:'Sin referencia'}</td><td>{durationText(actual.seconds)} {activityTimeLabel(actual)}{actual.elapsedSeconds!=null?`; ${durationText(actual.elapsedSeconds)} con pausas`:''}</td></tr>
    <tr><th>Esfuerzo</th><td>{before?`${before.rpe}/10`:'Sin referencia'}</td><td>{actual.rpe!=null?`${actual.rpe}/10`:'Falta esfuerzo'}</td></tr>
    <tr><th>Sensaciones</th><td>Control y recuperación suficiente</td><td>{feeling(actual.feeling)} · fatiga {actual.fatigue!=null?`${actual.fatigue}/10`:'sin confirmar'} · molestias {actual.pain==='none'?'no':actual.pain==='mild'?'leves':actual.pain==='relevant'?'relevantes':'sin confirmar'}</td></tr>
   </tbody></table></div>
   <p>{data.paceMismatch}</p>
+  {!!activity.importSources?.length&&<details className="spaced"><summary>Archivos originales y notas conservadas</summary><p>Estas medidas proceden de archivos propios autorizados. Si se vinculó un registro manual, sus medidas principales y notas siguen siendo las del registro.</p>{activity.importSources.map(source=><div key={source.key}><b>{source.fileName||'Archivo propio'} · {source.format?.toUpperCase()||'JSON'}</b>{source.notes&&<p>Notas del archivo: {source.notes}</p>}<pre>{JSON.stringify({original:source.original,evidence:source.evidence},null,2)}</pre></div>)}</details>}
   {data.blocks.rows.length>0&&<><h3>Bloques previstos y realizados</h3><div className="table-scroll"><table className="followup-comparison"><thead><tr><th>Bloque</th><th>Previsto</th><th>Realizado</th><th>Lectura</th></tr></thead><tbody>{data.blocks.rows.map((row:{label:string,planned:string,actual:string,matches:boolean},i:number)=><tr key={i}><th>{row.label}</th><td>{row.planned}</td><td>{row.actual}</td><td>{row.matches?'Compatible':'Con cambios'}</td></tr>)}</tbody></table></div></>}
   <h3>Datos que apoyan esta lectura</h3>{data.evidence.length?<ul>{data.evidence.map((text:string)=><li key={text}>{text}</li>)}</ul>:<p>Solo conocemos el registro; no hay una sesión prevista para comparar.</p>}
   {data.missing.length>0&&<><h3>Información que falta</h3><ul>{data.missing.map((text:string)=><li key={text}>{text}</li>)}</ul><button onClick={()=>onEdit(activity)}>Completar sensaciones y bloques</button></>}

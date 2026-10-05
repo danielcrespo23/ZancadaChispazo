@@ -18,12 +18,14 @@
     "verify:storage": "node scripts/verify-state-http.mjs",
     "verify:browser": "node scripts/verify-running-browser.mjs",
     "verify:followup": "node scripts/verify-followup-browser.mjs",
+    "verify:imports": "node scripts/verify-activity-import-browser.mjs",
     "db:generate": "drizzle-kit generate",
     "verify:integrations": "node scripts/verify-integrations-browser.mjs",
     "verify:experience": "node scripts/verify-experience-browser.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
+    "@garmin/fitsdk": "21.217.0",
     "@hookform/resolvers": "^5.7.1",
     "@shadcn/react": "^0.3.0",
     "class-variance-authority": "0.7.1",
@@ -32,6 +34,7 @@
     "date-fns": "^4.4.0",
     "drizzle-orm": "0.45.2",
     "embla-carousel-react": "^8.6.0",
+    "fast-xml-parser": "5.11.2",
     "input-otp": "^1.4.2",
     "lucide-react": "^1.31.0",
     "next": "16.3.4",

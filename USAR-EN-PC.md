@@ -84,6 +84,10 @@ intercambiar el código ni leer actividades hasta arrancar fuera de ese aislamie
 
 No se ha validado una conexión con una cuenta real hasta que completes OAuth.
 
+## Importar archivos del dispositivo
+
+Para importar carreras de tu reloj, abre **Historial → Recibir actividades de un archivo propio**. Selecciona TCX, CSV, FIT o el JSON anterior; confirma unidades y zona. En CSV puedes asignar columnas y agrupar vueltas. Pulsa **Preparar vista previa**, revisa ausencias y duplicados y autoriza el uso antes de guardar. Un archivo coincidente se puede vincular a una carrera manual manteniendo sus notas. La [guía de formatos, límites y pruebas](docs/importacion-dispositivo.md) explica qué funciona y qué está pendiente.
+
 ## Chat de entrenamiento sin servicios externos
 
 En **Mi entrenador** está visible el chat por reglas: usa tu contexto y no pide claves ni una suscripción de API. La consulta manual para ChatGPT está debajo, plegada.

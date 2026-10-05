@@ -107,7 +107,7 @@ El calendario y el detalle muestran instrucciones por bloques, recuperaciones co
 
 La [biblioteca de entrenamientos y sus ejemplos generados](docs/biblioteca-sesiones.md) documenta la selección para 5 km, 10 km, media y maratón, los recortes por tiempo, la progresión de una sola variable y la fuerza sin duplicar CrossFit. Incluye ocho perfiles ficticios reproducibles y comprobaciones de revisiones del plan.
 
-El seguimiento conserva el calendario hasta aceptar un cambio. Consulta [reglas de interpretación, asociaciones, progresión comparable y recepción de archivos](docs/seguimiento-actividades.md), con formato JSON, API autenticada, límites y pruebas.
+El seguimiento conserva el calendario hasta aceptar un cambio. Consulta [reglas de interpretación, asociaciones y progresión comparable](docs/seguimiento-actividades.md). La [importación de TCX, CSV con mapeo, FIT y JSON](docs/importacion-dispositivo.md) incluye vista previa, confirmación de unidades y zona, tiempos separados, vínculos con registros manuales sin perder notas, API autenticada y casos comprobados. Documenta los formatos y métricas que siguen pendientes.
 
 - En local solo existe un usuario simulado. Para varias personas reales hace falta desplegarlo con un inicio de sesión seguro (ver `LEEME-PRIMERO.md`).
 - Los planes son orientativos y no sustituyen el consejo de un profesional, sobre todo si tienes molestias o lesiones.

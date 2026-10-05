@@ -8,6 +8,7 @@ import {randomUUID} from 'node:crypto';
 import {empty,blankProfile,today,addDays,session,recordActivity,associateActivities,decideTrainingProposal} from '../lib/engine.mjs';
 import {buildPlanPreview,acceptPlanPreview,weekSummary,sessionStatus} from '../lib/training.mjs';
 import {localActivityDate} from '../lib/activity-source.mjs';
+import {parseActivityFile,configureActivityFile,combineActivityFiles} from '../lib/activity-import.mjs';
 import {withAIConsent,hasAIConsent} from '../lib/coach-consent.mjs';
 import {verifyPersistedUI} from './verify-persisted-ui.mjs';
 
@@ -152,6 +153,16 @@ try{
  assert.equal((await call('PUT',{state:acceptedCoach,revision:restoredCoach.revision},write)).status,200,'fresh reviewed chat draft accepts through server validation');
  const afterCoach=(await call('GET')).data;assert.deepEqual(afterCoach.state.activities,coachRow.state.activities);assert.equal(afterCoach.state.proposals.find(p=>p.id===scored.data.proposal.id).status,'accepted');
  await stop();await start();assert.deepEqual((await call('GET')).data,afterCoach,'coach acceptance survives restart');
+ // Device metadata and duplicate decisions are revalidated by the HTTP receiver.
+ const importRow=(await call('GET')).data,manualRun=importRow.state.activities.find(a=>a.id==='own-http'),importCsv=`Date,Sport,Distance (km),Moving time (s),Avg HR,Notes\n${manualRun.date},Running,${manualRun.distance},${manualRun.seconds},145,Nota del dispositivo`;
+ const doc=await parseActivityFile({name:'http-device.csv',data:importCsv}),prepared=combineActivityFiles([configureActivityFile(doc,{confirmed:true})]),devicePayload={source:'personal-file',consent:true,revision:importRow.revision,prepared,duplicateDecisions:[{index:0,action:'link',targetId:manualRun.id,fillMissing:true}]};
+ assert.equal((await activities('POST',{...devicePayload,prepared:{...prepared,confirmed:false}},write)).status,400);
+ assert.deepEqual((await call('GET')).data,importRow,'missing units confirmation never writes');
+ const linkedFile=await activities('POST',devicePayload,write);assert.equal(linkedFile.status,200);assert.deepEqual(linkedFile.data.received,[]);assert.deepEqual(linkedFile.data.linked,[manualRun.id]);assert.equal(linkedFile.data.revision,importRow.revision+1);
+ const linkedRow=(await call('GET')).data,linkedRun=linkedRow.state.activities.find(a=>a.id===manualRun.id);assert.equal(linkedRun.notes,manualRun.notes);assert.equal(linkedRun.seconds,manualRun.seconds);assert.equal(linkedRun.distance,manualRun.distance);assert.equal(linkedRun.avgHR,145);assert.equal(linkedRun.importSources[0].evidence.timeBasis,'moving');assert.deepEqual(linkedRow.state.plan,importRow.state.plan);
+ assert.equal((await activities('POST',devicePayload,write)).status,409,'stale duplicate decision requires current state');
+ const reimport=await activities('POST',{...devicePayload,revision:linkedRow.revision},write);assert.equal(reimport.status,200);assert.deepEqual(reimport.data.linked,[]);assert.equal(reimport.data.revision,linkedRow.revision);
+ await stop();await start();assert.deepEqual((await call('GET')).data,linkedRow,'linked file originals, consent and manual notes survive a real restart');
  if(process.argv.includes('--browser')){const before=(await call('GET')).data;console.log(JSON.stringify(await verifyPersistedUI(origin,before.state)));assert.deepEqual((await call('GET')).data,before);}
  console.log(JSON.stringify({result:'PASS',scope:'Isolated HTTP server and real D1; original database untouched',checks:['save profile/goal/plan','record activity','read persisted state','server restart','stale revision','erasure/recreation protection','authentication','request origin','authorized HTTP reception','local midnight','unknown sensations','idempotent duplicates','blocked Strava origin','explicit group and notes persist','revision notifications','contextual rules without model','coach and MCP consent gates','consent survives restart','revocation stops MCP','no calendar change from chat','same-day stale preview after pain, availability, activity and goal changes','current HTTP revision cannot bypass preview revalidation','valid review acceptance and restart','authenticated coach nonce and scored follow-up','chat draft stored without calendar modification','stale coach acceptance rejected with latest HTTP revision','changed state invalidates coach follow-up','valid explicit coach acceptance and restart']}));
 }finally{await stop();}

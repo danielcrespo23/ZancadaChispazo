@@ -82,6 +82,8 @@ La [cohorte original de Frandsen et al. de 5.205 corredores](https://pubmed.ncbi
 
 ## Comprobaciones reproducibles
 
+La recepción de archivos ahora admite TCX, CSV con mapeo y FIT, además de este JSON. Los tiempos se distinguen por su significado y los duplicados se pueden vincular sin perder notas. Consulta la [documentación actualizada de importación](importacion-dispositivo.md) para formatos, límites, originales y resultados de las nuevas pruebas; los resultados históricos indicados abajo corresponden al cierre anterior del seguimiento.
+
 ```sh
 npm test
 npm run check:types
