@@ -1,0 +1,1400 @@
+{
+  "case": {
+    "origin": "2026-10-05",
+    "review": "2026-11-09",
+    "race": "2027-01-25",
+    "distance": 21.1,
+    "declaredWeeklyKm": 30,
+    "history": "Ficticio: las sesiones del calendario se registran con esfuerzo prescrito, fatiga 2/10 y sin molestias. No son datos del usuario."
+  },
+  "schedules": {
+    "accepted": {
+      "start": "2026-10-05",
+      "end": "2027-01-25",
+      "days": 112,
+      "baseDays": 14,
+      "developmentDays": 53,
+      "specificDays": 35,
+      "taperDays": 10,
+      "baseEnd": "2026-10-19",
+      "specificStart": "2026-12-11",
+      "taperStart": "2027-01-15",
+      "deloadOrigin": "2026-10-05",
+      "reentryUntil": null,
+      "deload": true,
+      "reason": "Las fases reservan adaptación inicial, desarrollo, trabajo específico cuando hay margen y puesta a punto."
+    },
+    "reset": {
+      "start": "2026-11-09",
+      "end": "2027-01-25",
+      "days": 77,
+      "baseDays": 7,
+      "developmentDays": 39,
+      "specificDays": 21,
+      "taperDays": 10,
+      "baseEnd": "2026-11-16",
+      "specificStart": "2026-12-25",
+      "taperStart": "2027-01-15",
+      "deloadOrigin": "2026-11-09",
+      "reentryUntil": null,
+      "deload": true,
+      "reason": "Las fases reservan adaptación inicial, desarrollo, trabajo específico cuando hay margen y puesta a punto."
+    },
+    "unconfirmed": {
+      "start": "2026-10-05",
+      "end": "2027-01-25",
+      "days": 112,
+      "baseDays": 14,
+      "developmentDays": 53,
+      "specificDays": 35,
+      "taperDays": 10,
+      "baseEnd": "2026-10-19",
+      "specificStart": "2026-12-11",
+      "taperStart": "2027-01-15",
+      "deloadOrigin": "2026-10-05",
+      "reentryUntil": null,
+      "deload": true,
+      "reason": "Las fases reservan adaptación inicial, desarrollo, trabajo específico cuando hay margen y puesta a punto."
+    },
+    "measured": {
+      "start": "2026-10-05",
+      "end": "2027-01-25",
+      "days": 112,
+      "baseDays": 14,
+      "developmentDays": 53,
+      "specificDays": 35,
+      "taperDays": 10,
+      "baseEnd": "2026-10-19",
+      "specificStart": "2026-12-11",
+      "taperStart": "2027-01-15",
+      "deloadOrigin": "2026-10-05",
+      "reentryUntil": null,
+      "deload": true,
+      "reason": "Las fases reservan adaptación inicial, desarrollo, trabajo específico cuando hay margen y puesta a punto."
+    }
+  },
+  "weeks": [
+    {
+      "date": "2026-11-09",
+      "accepted": {
+        "phases": [
+          "Desarrollo"
+        ],
+        "km": 32.8,
+        "minutes": 200,
+        "keySessions": [
+          {
+            "date": "2026-11-09",
+            "type": "tempo",
+            "distance": 9.3,
+            "minutes": 56
+          },
+          {
+            "date": "2026-11-14",
+            "type": "long",
+            "distance": 14.2,
+            "minutes": 88
+          }
+        ]
+      },
+      "reset": {
+        "phases": [
+          "Base"
+        ],
+        "km": 30,
+        "minutes": 183,
+        "keySessions": [
+          {
+            "date": "2026-11-14",
+            "type": "long",
+            "km": 12,
+            "minutes": 75
+          }
+        ]
+      },
+      "unconfirmed": {
+        "phases": [
+          "Desarrollo"
+        ],
+        "km": 30,
+        "minutes": 183,
+        "keySessions": [
+          {
+            "date": "2026-11-09",
+            "type": "tempo",
+            "distance": 9,
+            "minutes": 54
+          },
+          {
+            "date": "2026-11-14",
+            "type": "long",
+            "distance": 12,
+            "minutes": 75
+          }
+        ]
+      },
+      "measured": {
+        "phases": [
+          "Desarrollo"
+        ],
+        "km": 31.8,
+        "minutes": 194,
+        "keySessions": [
+          {
+            "date": "2026-11-09",
+            "type": "tempo",
+            "distance": 8.8,
+            "minutes": 53
+          },
+          {
+            "date": "2026-11-14",
+            "type": "long",
+            "distance": 14.2,
+            "minutes": 88
+          }
+        ]
+      },
+      "reasons": [
+        "Se conservan el origen, las fechas de las fases y la cadencia de descargas. Las semanas transcurridas no demuestran adaptación.",
+        "Aumentos pequeños de diseño, sujetos a recuperación, tiempo disponible y revisión con lo realizado.",
+        "Historial confirmado completo: base futura de 30.9 km desde semanas realmente registradas (mediana, última semana y últimas dos comparables). No se añade la progresión prevista de semanas que solo han transcurrido."
+      ]
+    },
+    {
+      "date": "2026-11-16",
+      "accepted": {
+        "phases": [
+          "Desarrollo"
+        ],
+        "km": 34,
+        "minutes": 207,
+        "keySessions": [
+          {
+            "date": "2026-11-16",
+            "type": "progressive",
+            "distance": 9.5,
+            "minutes": 57
+          },
+          {
+            "date": "2026-11-21",
+            "type": "long",
+            "distance": 15,
+            "minutes": 93
+          }
+        ]
+      },
+      "reset": {
+        "phases": [
+          "Desarrollo"
+        ],
+        "km": 30.9,
+        "minutes": 188,
+        "keySessions": [
+          {
+            "date": "2026-11-16",
+            "type": "tempo",
+            "km": 9.1,
+            "minutes": 55
+          },
+          {
+            "date": "2026-11-21",
+            "type": "long",
+            "km": 12.7,
+            "minutes": 79
+          }
+        ]
+      },
+      "unconfirmed": {
+        "phases": [
+          "Desarrollo"
+        ],
+        "km": 30,
+        "minutes": 183,
+        "keySessions": [
+          {
+            "date": "2026-11-16",
+            "type": "progressive",
+            "distance": 9,
+            "minutes": 54
+          },
+          {
+            "date": "2026-11-21",
+            "type": "long",
+            "distance": 12,
+            "minutes": 75
+          }
+        ]
+      },
+      "measured": {
+        "phases": [
+          "Desarrollo"
+        ],
+        "km": 32.8,
+        "minutes": 200,
+        "keySessions": [
+          {
+            "date": "2026-11-16",
+            "type": "progressive",
+            "distance": 8.9,
+            "minutes": 53
+          },
+          {
+            "date": "2026-11-21",
+            "type": "long",
+            "distance": 15,
+            "minutes": 93
+          }
+        ]
+      },
+      "reasons": [
+        "Se conservan el origen, las fechas de las fases y la cadencia de descargas. Las semanas transcurridas no demuestran adaptación.",
+        "Aumentos pequeños de diseño, sujetos a recuperación, tiempo disponible y revisión con lo realizado.",
+        "Historial confirmado completo: base futura de 30.9 km desde semanas realmente registradas (mediana, última semana y últimas dos comparables). No se añade la progresión prevista de semanas que solo han transcurrido."
+      ]
+    },
+    {
+      "date": "2026-11-23",
+      "accepted": {
+        "phases": [
+          "Descarga"
+        ],
+        "km": 27.2,
+        "minutes": 166,
+        "keySessions": [
+          {
+            "date": "2026-11-28",
+            "type": "long",
+            "distance": 12,
+            "minutes": 75
+          }
+        ]
+      },
+      "reset": {
+        "phases": [
+          "Desarrollo"
+        ],
+        "km": 31.9,
+        "minutes": 194,
+        "keySessions": [
+          {
+            "date": "2026-11-23",
+            "type": "progressive",
+            "km": 9.2,
+            "minutes": 55
+          },
+          {
+            "date": "2026-11-28",
+            "type": "long",
+            "km": 13.5,
+            "minutes": 84
+          }
+        ]
+      },
+      "unconfirmed": {
+        "phases": [
+          "Descarga"
+        ],
+        "km": 24,
+        "minutes": 146,
+        "keySessions": [
+          {
+            "date": "2026-11-28",
+            "type": "long",
+            "distance": 9.6,
+            "minutes": 60
+          }
+        ]
+      },
+      "measured": {
+        "phases": [
+          "Descarga"
+        ],
+        "km": 26.2,
+        "minutes": 160,
+        "keySessions": [
+          {
+            "date": "2026-11-28",
+            "type": "long",
+            "distance": 12,
+            "minutes": 75
+          }
+        ]
+      },
+      "reasons": [
+        "Se conservan el origen, las fechas de las fases y la cadencia de descargas. Las semanas transcurridas no demuestran adaptación.",
+        "Semana de menor volumen y esfuerzo cómodo, sin compensar después lo reducido.",
+        "Historial confirmado completo: base futura de 30.9 km desde semanas realmente registradas (mediana, última semana y últimas dos comparables). No se añade la progresión prevista de semanas que solo han transcurrido."
+      ]
+    },
+    {
+      "date": "2026-11-30",
+      "accepted": {
+        "phases": [
+          "Desarrollo"
+        ],
+        "km": 34.9,
+        "minutes": 213,
+        "keySessions": [
+          {
+            "date": "2026-11-30",
+            "type": "progressive",
+            "distance": 9.6,
+            "minutes": 58
+          },
+          {
+            "date": "2026-12-05",
+            "type": "long",
+            "distance": 15.7,
+            "minutes": 98
+          }
+        ]
+      },
+      "reset": {
+        "phases": [
+          "Descarga"
+        ],
+        "km": 25.6,
+        "minutes": 156,
+        "keySessions": [
+          {
+            "date": "2026-12-05",
+            "type": "long",
+            "km": 10.8,
+            "minutes": 67
+          }
+        ]
+      },
+      "unconfirmed": {
+        "phases": [
+          "Desarrollo"
+        ],
+        "km": 30,
+        "minutes": 183,
+        "keySessions": [
+          {
+            "date": "2026-11-30",
+            "type": "progressive",
+            "distance": 9,
+            "minutes": 54
+          },
+          {
+            "date": "2026-12-05",
+            "type": "long",
+            "distance": 12,
+            "minutes": 75
+          }
+        ]
+      },
+      "measured": {
+        "phases": [
+          "Desarrollo"
+        ],
+        "km": 33.7,
+        "minutes": 206,
+        "keySessions": [
+          {
+            "date": "2026-11-30",
+            "type": "progressive",
+            "distance": 9,
+            "minutes": 54
+          },
+          {
+            "date": "2026-12-05",
+            "type": "long",
+            "distance": 15.7,
+            "minutes": 98
+          }
+        ]
+      },
+      "reasons": [
+        "Se conservan el origen, las fechas de las fases y la cadencia de descargas. Las semanas transcurridas no demuestran adaptación.",
+        "Aumentos pequeños de diseño, sujetos a recuperación, tiempo disponible y revisión con lo realizado.",
+        "Historial confirmado completo: base futura de 30.9 km desde semanas realmente registradas (mediana, última semana y últimas dos comparables). No se añade la progresión prevista de semanas que solo han transcurrido."
+      ]
+    },
+    {
+      "date": "2026-12-07",
+      "accepted": {
+        "phases": [
+          "Desarrollo",
+          "Trabajo específico"
+        ],
+        "km": 35.4,
+        "minutes": 216,
+        "keySessions": [
+          {
+            "date": "2026-12-07",
+            "type": "tempo",
+            "distance": 9.7,
+            "minutes": 58
+          },
+          {
+            "date": "2026-12-12",
+            "type": "long",
+            "distance": 16,
+            "minutes": 100
+          }
+        ]
+      },
+      "reset": {
+        "phases": [
+          "Desarrollo"
+        ],
+        "km": 32.8,
+        "minutes": 200,
+        "keySessions": [
+          {
+            "date": "2026-12-07",
+            "type": "progressive",
+            "km": 9.3,
+            "minutes": 56
+          },
+          {
+            "date": "2026-12-12",
+            "type": "long",
+            "km": 14.2,
+            "minutes": 88
+          }
+        ]
+      },
+      "unconfirmed": {
+        "phases": [
+          "Desarrollo",
+          "Trabajo específico"
+        ],
+        "km": 30,
+        "minutes": 183,
+        "keySessions": [
+          {
+            "date": "2026-12-07",
+            "type": "tempo",
+            "distance": 9,
+            "minutes": 54
+          },
+          {
+            "date": "2026-12-12",
+            "type": "long",
+            "distance": 12,
+            "minutes": 75
+          }
+        ]
+      },
+      "measured": {
+        "phases": [
+          "Desarrollo",
+          "Trabajo específico"
+        ],
+        "km": 34.2,
+        "minutes": 209,
+        "keySessions": [
+          {
+            "date": "2026-12-07",
+            "type": "tempo",
+            "distance": 9.1,
+            "minutes": 55
+          },
+          {
+            "date": "2026-12-12",
+            "type": "long",
+            "distance": 16,
+            "minutes": 100
+          }
+        ]
+      },
+      "reasons": [
+        "Se conservan el origen, las fechas de las fases y la cadencia de descargas. Las semanas transcurridas no demuestran adaptación.",
+        "Aumentos pequeños de diseño, sujetos a recuperación, tiempo disponible y revisión con lo realizado.",
+        "Historial confirmado completo: base futura de 30.9 km desde semanas realmente registradas (mediana, última semana y últimas dos comparables). No se añade la progresión prevista de semanas que solo han transcurrido."
+      ]
+    },
+    {
+      "date": "2026-12-14",
+      "accepted": {
+        "phases": [
+          "Trabajo específico"
+        ],
+        "km": 35.6,
+        "minutes": 217,
+        "keySessions": [
+          {
+            "date": "2026-12-14",
+            "type": "tempo",
+            "distance": 9.8,
+            "minutes": 59
+          },
+          {
+            "date": "2026-12-19",
+            "type": "long",
+            "distance": 16,
+            "minutes": 100
+          }
+        ]
+      },
+      "reset": {
+        "phases": [
+          "Desarrollo"
+        ],
+        "km": 34,
+        "minutes": 207,
+        "keySessions": [
+          {
+            "date": "2026-12-14",
+            "type": "tempo",
+            "km": 9.5,
+            "minutes": 57
+          },
+          {
+            "date": "2026-12-19",
+            "type": "long",
+            "km": 15,
+            "minutes": 93
+          }
+        ]
+      },
+      "unconfirmed": {
+        "phases": [
+          "Trabajo específico"
+        ],
+        "km": 30,
+        "minutes": 183,
+        "keySessions": [
+          {
+            "date": "2026-12-14",
+            "type": "tempo",
+            "distance": 9,
+            "minutes": 54
+          },
+          {
+            "date": "2026-12-19",
+            "type": "long",
+            "distance": 12,
+            "minutes": 75
+          }
+        ]
+      },
+      "measured": {
+        "phases": [
+          "Trabajo específico"
+        ],
+        "km": 34.4,
+        "minutes": 210,
+        "keySessions": [
+          {
+            "date": "2026-12-14",
+            "type": "tempo",
+            "distance": 9.2,
+            "minutes": 55
+          },
+          {
+            "date": "2026-12-19",
+            "type": "long",
+            "distance": 16,
+            "minutes": 100
+          }
+        ]
+      },
+      "reasons": [
+        "Se conservan el origen, las fechas de las fases y la cadencia de descargas. Las semanas transcurridas no demuestran adaptación.",
+        "Priorizar resistencia y esfuerzos sostenibles para 21.1 km; la meta de tiempo no fija el nivel.",
+        "Historial confirmado completo: base futura de 30.9 km desde semanas realmente registradas (mediana, última semana y últimas dos comparables). No se añade la progresión prevista de semanas que solo han transcurrido."
+      ]
+    },
+    {
+      "date": "2026-12-21",
+      "accepted": {
+        "phases": [
+          "Descarga"
+        ],
+        "km": 29.6,
+        "minutes": 181,
+        "keySessions": [
+          {
+            "date": "2026-12-26",
+            "type": "long",
+            "distance": 13.8,
+            "minutes": 86
+          }
+        ]
+      },
+      "reset": {
+        "phases": [
+          "Desarrollo",
+          "Trabajo específico"
+        ],
+        "km": 34.9,
+        "minutes": 213,
+        "keySessions": [
+          {
+            "date": "2026-12-21",
+            "type": "progressive",
+            "km": 9.6,
+            "minutes": 58
+          },
+          {
+            "date": "2026-12-26",
+            "type": "long",
+            "km": 15.7,
+            "minutes": 98
+          }
+        ]
+      },
+      "unconfirmed": {
+        "phases": [
+          "Descarga"
+        ],
+        "km": 24,
+        "minutes": 146,
+        "keySessions": [
+          {
+            "date": "2026-12-26",
+            "type": "long",
+            "distance": 9.6,
+            "minutes": 60
+          }
+        ]
+      },
+      "measured": {
+        "phases": [
+          "Descarga"
+        ],
+        "km": 28.6,
+        "minutes": 175,
+        "keySessions": [
+          {
+            "date": "2026-12-26",
+            "type": "long",
+            "distance": 13.8,
+            "minutes": 86
+          }
+        ]
+      },
+      "reasons": [
+        "Se conservan el origen, las fechas de las fases y la cadencia de descargas. Las semanas transcurridas no demuestran adaptación.",
+        "Semana de menor volumen y esfuerzo cómodo, sin compensar después lo reducido.",
+        "Historial confirmado completo: base futura de 30.9 km desde semanas realmente registradas (mediana, última semana y últimas dos comparables). No se añade la progresión prevista de semanas que solo han transcurrido."
+      ]
+    },
+    {
+      "date": "2026-12-28",
+      "accepted": {
+        "phases": [
+          "Trabajo específico"
+        ],
+        "km": 36,
+        "minutes": 220,
+        "keySessions": [
+          {
+            "date": "2026-12-28",
+            "type": "tempo",
+            "distance": 10,
+            "minutes": 60
+          },
+          {
+            "date": "2027-01-02",
+            "type": "long",
+            "distance": 16,
+            "minutes": 100
+          }
+        ]
+      },
+      "reset": {
+        "phases": [
+          "Descarga"
+        ],
+        "km": 28,
+        "minutes": 171,
+        "keySessions": [
+          {
+            "date": "2027-01-02",
+            "type": "long",
+            "km": 12.6,
+            "minutes": 78
+          }
+        ]
+      },
+      "unconfirmed": {
+        "phases": [
+          "Trabajo específico"
+        ],
+        "km": 30,
+        "minutes": 183,
+        "keySessions": [
+          {
+            "date": "2026-12-28",
+            "type": "tempo",
+            "distance": 9,
+            "minutes": 54
+          },
+          {
+            "date": "2027-01-02",
+            "type": "long",
+            "distance": 12,
+            "minutes": 75
+          }
+        ]
+      },
+      "measured": {
+        "phases": [
+          "Trabajo específico"
+        ],
+        "km": 34.8,
+        "minutes": 212,
+        "keySessions": [
+          {
+            "date": "2026-12-28",
+            "type": "tempo",
+            "distance": 9.4,
+            "minutes": 56
+          },
+          {
+            "date": "2027-01-02",
+            "type": "long",
+            "distance": 16,
+            "minutes": 100
+          }
+        ]
+      },
+      "reasons": [
+        "Se conservan el origen, las fechas de las fases y la cadencia de descargas. Las semanas transcurridas no demuestran adaptación.",
+        "Priorizar resistencia y esfuerzos sostenibles para 21.1 km; la meta de tiempo no fija el nivel.",
+        "Historial confirmado completo: base futura de 30.9 km desde semanas realmente registradas (mediana, última semana y últimas dos comparables). No se añade la progresión prevista de semanas que solo han transcurrido."
+      ]
+    },
+    {
+      "date": "2027-01-04",
+      "accepted": {
+        "phases": [
+          "Trabajo específico"
+        ],
+        "km": 36.2,
+        "minutes": 221,
+        "keySessions": [
+          {
+            "date": "2027-01-04",
+            "type": "tempo",
+            "distance": 10.1,
+            "minutes": 61
+          },
+          {
+            "date": "2027-01-09",
+            "type": "long",
+            "distance": 16,
+            "minutes": 100
+          }
+        ]
+      },
+      "reset": {
+        "phases": [
+          "Trabajo específico"
+        ],
+        "km": 35.4,
+        "minutes": 216,
+        "keySessions": [
+          {
+            "date": "2027-01-04",
+            "type": "tempo",
+            "km": 9.7,
+            "minutes": 58
+          },
+          {
+            "date": "2027-01-09",
+            "type": "long",
+            "km": 16,
+            "minutes": 100
+          }
+        ]
+      },
+      "unconfirmed": {
+        "phases": [
+          "Trabajo específico"
+        ],
+        "km": 30,
+        "minutes": 183,
+        "keySessions": [
+          {
+            "date": "2027-01-04",
+            "type": "tempo",
+            "distance": 9,
+            "minutes": 54
+          },
+          {
+            "date": "2027-01-09",
+            "type": "long",
+            "distance": 12,
+            "minutes": 75
+          }
+        ]
+      },
+      "measured": {
+        "phases": [
+          "Trabajo específico"
+        ],
+        "km": 35,
+        "minutes": 214,
+        "keySessions": [
+          {
+            "date": "2027-01-04",
+            "type": "tempo",
+            "distance": 9.5,
+            "minutes": 57
+          },
+          {
+            "date": "2027-01-09",
+            "type": "long",
+            "distance": 16,
+            "minutes": 100
+          }
+        ]
+      },
+      "reasons": [
+        "Se conservan el origen, las fechas de las fases y la cadencia de descargas. Las semanas transcurridas no demuestran adaptación.",
+        "Priorizar resistencia y esfuerzos sostenibles para 21.1 km; la meta de tiempo no fija el nivel.",
+        "Historial confirmado completo: base futura de 30.9 km desde semanas realmente registradas (mediana, última semana y últimas dos comparables). No se añade la progresión prevista de semanas que solo han transcurrido."
+      ]
+    },
+    {
+      "date": "2027-01-11",
+      "accepted": {
+        "phases": [
+          "Trabajo específico",
+          "Puesta a punto"
+        ],
+        "km": 34,
+        "minutes": 207,
+        "keySessions": [
+          {
+            "date": "2027-01-11",
+            "type": "tempo",
+            "distance": 10.2,
+            "minutes": 61
+          },
+          {
+            "date": "2027-01-16",
+            "type": "long",
+            "distance": 13.6,
+            "minutes": 85
+          }
+        ]
+      },
+      "reset": {
+        "phases": [
+          "Trabajo específico",
+          "Puesta a punto"
+        ],
+        "km": 31.6,
+        "minutes": 192,
+        "keySessions": [
+          {
+            "date": "2027-01-11",
+            "type": "tempo",
+            "km": 9.8,
+            "minutes": 59
+          },
+          {
+            "date": "2027-01-16",
+            "type": "long",
+            "km": 12,
+            "minutes": 75
+          }
+        ]
+      },
+      "unconfirmed": {
+        "phases": [
+          "Trabajo específico",
+          "Puesta a punto"
+        ],
+        "km": 23.4,
+        "minutes": 142,
+        "keySessions": [
+          {
+            "date": "2027-01-11",
+            "type": "tempo",
+            "distance": 7.5,
+            "minutes": 45
+          },
+          {
+            "date": "2027-01-16",
+            "type": "long",
+            "distance": 8.4,
+            "minutes": 52
+          }
+        ]
+      },
+      "measured": {
+        "phases": [
+          "Trabajo específico",
+          "Puesta a punto"
+        ],
+        "km": 32.9,
+        "minutes": 200,
+        "keySessions": [
+          {
+            "date": "2027-01-11",
+            "type": "tempo",
+            "distance": 9.7,
+            "minutes": 58
+          },
+          {
+            "date": "2027-01-16",
+            "type": "long",
+            "distance": 13.5,
+            "minutes": 84
+          }
+        ]
+      },
+      "reasons": [
+        "Se conservan el origen, las fechas de las fases y la cadencia de descargas. Las semanas transcurridas no demuestran adaptación.",
+        "Priorizar resistencia y esfuerzos sostenibles para 21.1 km; la meta de tiempo no fija el nivel.",
+        "Historial confirmado completo: base futura de 30.9 km desde semanas realmente registradas (mediana, última semana y últimas dos comparables). No se añade la progresión prevista de semanas que solo han transcurrido."
+      ]
+    },
+    {
+      "date": "2027-01-18",
+      "accepted": {
+        "phases": [
+          "Puesta a punto"
+        ],
+        "km": 20.4,
+        "minutes": 124,
+        "keySessions": [
+          {
+            "date": "2027-01-23",
+            "type": "long",
+            "distance": 8.7,
+            "minutes": 54
+          }
+        ]
+      },
+      "reset": {
+        "phases": [
+          "Puesta a punto"
+        ],
+        "km": 19,
+        "minutes": 115,
+        "keySessions": [
+          {
+            "date": "2027-01-23",
+            "type": "long",
+            "km": 7.7,
+            "minutes": 48
+          }
+        ]
+      },
+      "unconfirmed": {
+        "phases": [
+          "Puesta a punto"
+        ],
+        "km": 14.2,
+        "minutes": 86,
+        "keySessions": [
+          {
+            "date": "2027-01-23",
+            "type": "long",
+            "distance": 5.4,
+            "minutes": 33
+          }
+        ]
+      },
+      "measured": {
+        "phases": [
+          "Puesta a punto"
+        ],
+        "km": 19.7,
+        "minutes": 120,
+        "keySessions": [
+          {
+            "date": "2027-01-23",
+            "type": "long",
+            "distance": 8.7,
+            "minutes": 54
+          }
+        ]
+      },
+      "reasons": [
+        "Se conservan el origen, las fechas de las fases y la cadencia de descargas. Las semanas transcurridas no demuestran adaptación.",
+        "Menos carga en los últimos 10 días. No se añade intensidad ni se recuperan sesiones perdidas.",
+        "Historial confirmado completo: base futura de 30.9 km desde semanas realmente registradas (mediana, última semana y últimas dos comparables). No se añade la progresión prevista de semanas que solo han transcurrido."
+      ]
+    },
+    {
+      "date": "2027-01-25",
+      "accepted": {
+        "phases": [],
+        "km": 0,
+        "minutes": 0,
+        "keySessions": []
+      },
+      "reset": {
+        "phases": [],
+        "km": 0,
+        "minutes": 0,
+        "keySessions": []
+      },
+      "unconfirmed": {
+        "phases": [],
+        "km": 0,
+        "minutes": 0,
+        "keySessions": []
+      },
+      "measured": {
+        "phases": [],
+        "km": 0,
+        "minutes": 0,
+        "keySessions": []
+      },
+      "reasons": [
+        "Se conservan el origen, las fechas de las fases y la cadencia de descargas. Las semanas transcurridas no demuestran adaptación.",
+        "Historial confirmado completo: base futura de 30.9 km desde semanas realmente registradas (mediana, última semana y últimas dos comparables). No se añade la progresión prevista de semanas que solo han transcurrido."
+      ]
+    }
+  ],
+  "successive": [
+    {
+      "date": "2026-11-09",
+      "phaseOrigin": "2026-10-05",
+      "specificStart": "2026-12-11",
+      "taperStart": "2027-01-15",
+      "referenceWeeklyKm": 30.9,
+      "phases": [
+        "Desarrollo"
+      ],
+      "km": 31.8,
+      "minutes": 194,
+      "keySessions": [
+        {
+          "date": "2026-11-09",
+          "type": "tempo",
+          "km": 8.8,
+          "minutes": 53
+        },
+        {
+          "date": "2026-11-14",
+          "type": "long",
+          "km": 14.2,
+          "minutes": 88
+        }
+      ],
+      "reasons": [
+        "Se conservan el origen, las fechas de las fases y la cadencia de descargas. Las semanas transcurridas no demuestran adaptación.",
+        "Aumentos pequeños de diseño, sujetos a recuperación, tiempo disponible y revisión con lo realizado.",
+        "Historial confirmado completo: base futura de 30.9 km desde semanas realmente registradas (mediana, última semana y últimas dos comparables). No se añade la progresión prevista de semanas que solo han transcurrido."
+      ]
+    },
+    {
+      "date": "2026-11-16",
+      "phaseOrigin": "2026-10-05",
+      "specificStart": "2026-12-11",
+      "taperStart": "2027-01-15",
+      "referenceWeeklyKm": 31.8,
+      "phases": [
+        "Desarrollo"
+      ],
+      "km": 32.7,
+      "minutes": 199,
+      "keySessions": [
+        {
+          "date": "2026-11-16",
+          "type": "progressive",
+          "km": 8.9,
+          "minutes": 53
+        },
+        {
+          "date": "2026-11-21",
+          "type": "long",
+          "km": 14.9,
+          "minutes": 93
+        }
+      ],
+      "reasons": [
+        "Se conservan el origen, las fechas de las fases y la cadencia de descargas. Las semanas transcurridas no demuestran adaptación.",
+        "Aumentos pequeños de diseño, sujetos a recuperación, tiempo disponible y revisión con lo realizado.",
+        "Historial confirmado completo: base futura de 31.8 km desde semanas realmente registradas (mediana, última semana y últimas dos comparables). No se añade la progresión prevista de semanas que solo han transcurrido."
+      ]
+    },
+    {
+      "date": "2026-11-23",
+      "phaseOrigin": "2026-10-05",
+      "specificStart": "2026-12-11",
+      "taperStart": "2027-01-15",
+      "referenceWeeklyKm": 31.9,
+      "phases": [
+        "Descarga"
+      ],
+      "km": 25.5,
+      "minutes": 155,
+      "keySessions": [
+        {
+          "date": "2026-11-28",
+          "type": "long",
+          "km": 11.9,
+          "minutes": 74
+        }
+      ],
+      "reasons": [
+        "Se conservan el origen, las fechas de las fases y la cadencia de descargas. Las semanas transcurridas no demuestran adaptación.",
+        "Semana de menor volumen y esfuerzo cómodo, sin compensar después lo reducido.",
+        "Historial confirmado completo: base futura de 31.9 km desde semanas realmente registradas (mediana, última semana y últimas dos comparables). No se añade la progresión prevista de semanas que solo han transcurrido."
+      ]
+    },
+    {
+      "date": "2026-11-30",
+      "phaseOrigin": "2026-10-05",
+      "specificStart": "2026-12-11",
+      "taperStart": "2027-01-15",
+      "referenceWeeklyKm": 31.9,
+      "phases": [
+        "Desarrollo"
+      ],
+      "km": 32.8,
+      "minutes": 200,
+      "keySessions": [
+        {
+          "date": "2026-11-30",
+          "type": "progressive",
+          "km": 8.6,
+          "minutes": 52
+        },
+        {
+          "date": "2026-12-05",
+          "type": "long",
+          "km": 15.6,
+          "minutes": 97
+        }
+      ],
+      "reasons": [
+        "Se conservan el origen, las fechas de las fases y la cadencia de descargas. Las semanas transcurridas no demuestran adaptación.",
+        "Aumentos pequeños de diseño, sujetos a recuperación, tiempo disponible y revisión con lo realizado.",
+        "Historial confirmado completo: base futura de 31.9 km desde semanas realmente registradas (mediana, última semana y últimas dos comparables). No se añade la progresión prevista de semanas que solo han transcurrido."
+      ]
+    },
+    {
+      "date": "2026-12-07",
+      "phaseOrigin": "2026-10-05",
+      "specificStart": "2026-12-11",
+      "taperStart": "2027-01-15",
+      "referenceWeeklyKm": 32.7,
+      "phases": [
+        "Desarrollo",
+        "Trabajo específico"
+      ],
+      "km": 33.2,
+      "minutes": 203,
+      "keySessions": [
+        {
+          "date": "2026-12-07",
+          "type": "tempo",
+          "km": 8.6,
+          "minutes": 52
+        },
+        {
+          "date": "2026-12-12",
+          "type": "long",
+          "km": 16,
+          "minutes": 100
+        }
+      ],
+      "reasons": [
+        "Se conservan el origen, las fechas de las fases y la cadencia de descargas. Las semanas transcurridas no demuestran adaptación.",
+        "Aumentos pequeños de diseño, sujetos a recuperación, tiempo disponible y revisión con lo realizado.",
+        "Historial confirmado completo: base futura de 32.7 km desde semanas realmente registradas (mediana, última semana y últimas dos comparables). No se añade la progresión prevista de semanas que solo han transcurrido."
+      ]
+    },
+    {
+      "date": "2026-12-14",
+      "phaseOrigin": "2026-10-05",
+      "specificStart": "2026-12-11",
+      "taperStart": "2027-01-15",
+      "referenceWeeklyKm": 32.8,
+      "phases": [
+        "Trabajo específico"
+      ],
+      "km": 33,
+      "minutes": 202,
+      "keySessions": [
+        {
+          "date": "2026-12-14",
+          "type": "tempo",
+          "km": 8.5,
+          "minutes": 51
+        },
+        {
+          "date": "2026-12-19",
+          "type": "long",
+          "km": 16,
+          "minutes": 100
+        }
+      ],
+      "reasons": [
+        "Se conservan el origen, las fechas de las fases y la cadencia de descargas. Las semanas transcurridas no demuestran adaptación.",
+        "Priorizar resistencia y esfuerzos sostenibles para 21.1 km; la meta de tiempo no fija el nivel.",
+        "Historial confirmado completo: base futura de 32.8 km desde semanas realmente registradas (mediana, última semana y últimas dos comparables). No se añade la progresión prevista de semanas que solo han transcurrido."
+      ]
+    },
+    {
+      "date": "2026-12-21",
+      "phaseOrigin": "2026-10-05",
+      "specificStart": "2026-12-11",
+      "taperStart": "2027-01-15",
+      "referenceWeeklyKm": 33,
+      "phases": [
+        "Descarga"
+      ],
+      "km": 26.4,
+      "minutes": 161,
+      "keySessions": [
+        {
+          "date": "2026-12-26",
+          "type": "long",
+          "km": 12.8,
+          "minutes": 80
+        }
+      ],
+      "reasons": [
+        "Se conservan el origen, las fechas de las fases y la cadencia de descargas. Las semanas transcurridas no demuestran adaptación.",
+        "Semana de menor volumen y esfuerzo cómodo, sin compensar después lo reducido.",
+        "Historial confirmado completo: base futura de 33 km desde semanas realmente registradas (mediana, última semana y últimas dos comparables). No se añade la progresión prevista de semanas que solo han transcurrido."
+      ]
+    },
+    {
+      "date": "2026-12-28",
+      "phaseOrigin": "2026-10-05",
+      "specificStart": "2026-12-11",
+      "taperStart": "2027-01-15",
+      "referenceWeeklyKm": 33,
+      "phases": [
+        "Trabajo específico"
+      ],
+      "km": 33.2,
+      "minutes": 203,
+      "keySessions": [
+        {
+          "date": "2026-12-28",
+          "type": "tempo",
+          "km": 8.6,
+          "minutes": 52
+        },
+        {
+          "date": "2027-01-02",
+          "type": "long",
+          "km": 16,
+          "minutes": 100
+        }
+      ],
+      "reasons": [
+        "Se conservan el origen, las fechas de las fases y la cadencia de descargas. Las semanas transcurridas no demuestran adaptación.",
+        "Priorizar resistencia y esfuerzos sostenibles para 21.1 km; la meta de tiempo no fija el nivel.",
+        "Historial confirmado completo: base futura de 33 km desde semanas realmente registradas (mediana, última semana y últimas dos comparables). No se añade la progresión prevista de semanas que solo han transcurrido."
+      ]
+    },
+    {
+      "date": "2027-01-04",
+      "phaseOrigin": "2026-10-05",
+      "specificStart": "2026-12-11",
+      "taperStart": "2027-01-15",
+      "referenceWeeklyKm": 33.1,
+      "phases": [
+        "Trabajo específico"
+      ],
+      "km": 33.2,
+      "minutes": 203,
+      "keySessions": [
+        {
+          "date": "2027-01-04",
+          "type": "tempo",
+          "km": 8.6,
+          "minutes": 52
+        },
+        {
+          "date": "2027-01-09",
+          "type": "long",
+          "km": 16,
+          "minutes": 100
+        }
+      ],
+      "reasons": [
+        "Se conservan el origen, las fechas de las fases y la cadencia de descargas. Las semanas transcurridas no demuestran adaptación.",
+        "Priorizar resistencia y esfuerzos sostenibles para 21.1 km; la meta de tiempo no fija el nivel.",
+        "Historial confirmado completo: base futura de 33.1 km desde semanas realmente registradas (mediana, última semana y últimas dos comparables). No se añade la progresión prevista de semanas que solo han transcurrido."
+      ]
+    },
+    {
+      "date": "2027-01-11",
+      "phaseOrigin": "2026-10-05",
+      "specificStart": "2026-12-11",
+      "taperStart": "2027-01-15",
+      "referenceWeeklyKm": 33.2,
+      "phases": [
+        "Trabajo específico",
+        "Puesta a punto"
+      ],
+      "km": 29.1,
+      "minutes": 177,
+      "keySessions": [
+        {
+          "date": "2027-01-11",
+          "type": "tempo",
+          "km": 8.7,
+          "minutes": 52
+        },
+        {
+          "date": "2027-01-16",
+          "type": "long",
+          "km": 11.7,
+          "minutes": 73
+        }
+      ],
+      "reasons": [
+        "Se conservan el origen, las fechas de las fases y la cadencia de descargas. Las semanas transcurridas no demuestran adaptación.",
+        "Priorizar resistencia y esfuerzos sostenibles para 21.1 km; la meta de tiempo no fija el nivel.",
+        "Historial confirmado completo: base futura de 33.2 km desde semanas realmente registradas (mediana, última semana y últimas dos comparables). No se añade la progresión prevista de semanas que solo han transcurrido."
+      ]
+    },
+    {
+      "date": "2027-01-18",
+      "phaseOrigin": "2026-10-05",
+      "specificStart": "2026-12-11",
+      "taperStart": "2027-01-15",
+      "referenceWeeklyKm": 29.1,
+      "phases": [
+        "Puesta a punto"
+      ],
+      "km": 14.7,
+      "minutes": 89,
+      "keySessions": [
+        {
+          "date": "2027-01-23",
+          "type": "long",
+          "km": 6.5,
+          "minutes": 40
+        }
+      ],
+      "reasons": [
+        "Se conservan el origen, las fechas de las fases y la cadencia de descargas. Las semanas transcurridas no demuestran adaptación.",
+        "Menos carga en los últimos 10 días. No se añade intensidad ni se recuperan sesiones perdidas.",
+        "Historial confirmado completo: base futura de 29.1 km desde semanas realmente registradas (mediana, última semana y últimas dos comparables). No se añade la progresión prevista de semanas que solo han transcurrido."
+      ]
+    }
+  ],
+  "decisions": [
+    {
+      "mode": "adjust",
+      "when": "Misma carrera, preparación vigente y sin pausa confirmada.",
+      "effect": "Mantiene origen, fases y descargas. La carga parte de lo realizado si la cobertura está confirmada; con historial incompleto limita la referencia declarada y detiene el crecimiento."
+    },
+    {
+      "mode": "goal_change",
+      "when": "Cambia fecha, distancia, tipo o demanda de terreno del objetivo.",
+      "effect": "Reparte las fases desde la revisión para la nueva carrera. No traslada adaptación del objetivo anterior; conserva pasado y asociaciones. Cambiar solo el tiempo deseado no reinicia el calendario."
+    },
+    {
+      "mode": "resume",
+      "when": "Pausa declarada, o al menos 14 días sin correr con historial confirmado.",
+      "effect": "Reduce la referencia disponible y abre dos semanas cómodas. Repetir la revisión no vuelve a aplicar esa reducción ni mueve su origen. Una segunda pausa tras haber retomado sí inicia otra reentrada."
+    },
+    {
+      "mode": "new",
+      "when": "Decisión explícita de nueva preparación, ausencia de calendario o bloque terminado.",
+      "effect": "Crea un origen nuevo; la carga sigue limitada por evidencia y recuperación. Conserva las sesiones realizadas y sus registros."
+    }
+  ]
+}

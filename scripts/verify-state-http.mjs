@@ -53,6 +53,9 @@ try{
  const erased=await call('DELETE',null,write);assert.equal(erased.status,200);assert.equal(erased.data.revision,3);
  assert.equal((await call('PUT',{state,revision:2},write)).status,409);
  assert.equal((await call('GET')).data.state,null);
+ // Erasure removed the proposal's origin. Recalculate before recreating a plan;
+ // keep the fixture's records and history when creating its new calendar.
+ const recreated={...state,plan:null};state=acceptPlanPreview(recreated,buildPlanPreview(recreated,{},today(),{revision:3}),today(),3);
  assert.equal((await call('PUT',{state,revision:3},write)).status,200);
  assert.equal((await call('PUT',{state,revision:2},write)).status,409);
  assert.deepEqual((await call('GET')).data,{state,revision:4});
@@ -94,6 +97,31 @@ try{
  const absent=await coachCall('POST',{...question,mode:'ollama',revision:8},write);assert.equal(absent.status,200);assert.equal(absent.data.mode,'rules');assert.equal(absent.data.generationVerified,false);assert.equal(JSON.stringify((await call('GET')).data.state.plan),beforeCoach);
  await stop();await start();assert(hasAIConsent((await call('GET')).data.state));assert.equal((await call('GET')).data.revision,8);
  state=withAIConsent(state,false);assert.equal((await call('PUT',{state,revision:8},write)).status,200);assert.equal((await coachCall('POST',tool,write,'/mcp')).data.result.isError,true);assert.equal(JSON.stringify((await call('GET')).data.state.plan),beforeCoach);
+ // Replay a proposal over HTTP with the latest revision, bypassing browser guards.
+ // All writes in this loop use this run's disposable D1 database.
+ const reviewBase=(await call('GET')).data;
+ const reviewCases=[
+  ['pain',s=>({...s,checkIns:[{date:today(),pain:'relevant',fatigue:3}]})],
+  ['availability',s=>({...s,profile:{...s.profile,minutes:{...s.profile.minutes,1:15,3:15,6:20}}})],
+  ['activity',s=>({...s,activities:[...s.activities,{id:'review-http',date:today(),distance:2,seconds:800,type:'easy',pain:'none',rpe:3,fatigue:2}]})],
+  ['goal',s=>({...s,profile:{...s.profile,goal:{...s.profile.goal,date:addDays(today(),56),distance:21.1}}})]
+ ];
+ for(const [name,change] of reviewCases){
+  let row=(await call('GET')).data;
+  const preview=buildPlanPreview(row.state,{},today(),{revision:row.revision}),accepted=acceptPlanPreview(row.state,preview,today(),row.revision),changed=change(row.state);
+  assert.equal((await call('PUT',{state:changed,revision:row.revision},write)).status,200,name);
+  const current=(await call('GET')).data,payload={...changed,plan:accepted.plan,changes:accepted.changes};
+  const rejected=await call('PUT',{state:payload,revision:current.revision},write);
+  assert.equal(rejected.status,409,name);assert.equal(rejected.data.code,'stale_plan_preview');assert.equal(rejected.data.recalculate,true);
+  assert.deepEqual((await call('GET')).data,current,'failed acceptance preserves state and revision');
+  // Return to the fixture data by a normal profile/record write; preserve its calendar.
+  assert.equal((await call('PUT',{state:reviewBase.state,revision:current.revision},write)).status,200);
+ }
+ const finalReview=(await call('GET')).data,validPreview=buildPlanPreview(finalReview.state,{},today(),{revision:finalReview.revision});
+ const validState=acceptPlanPreview(finalReview.state,validPreview,today(),finalReview.revision);
+ assert.equal((await call('PUT',{state:validState,revision:finalReview.revision},write)).status,200,'valid proposals still accept over HTTP');
+ assert.deepEqual((await call('GET')).data.state.activities,reviewBase.state.activities);
+ const acceptedReview=(await call('GET')).data;await stop();await start();assert.deepEqual((await call('GET')).data,acceptedReview,'accepted review survives restart');
  if(process.argv.includes('--browser')){const before=(await call('GET')).data;console.log(JSON.stringify(await verifyPersistedUI(origin,before.state)));assert.deepEqual((await call('GET')).data,before);}
- console.log(JSON.stringify({result:'PASS',scope:'Isolated HTTP server and real D1; original database untouched',checks:['save profile/goal/plan','record activity','read persisted state','server restart','stale revision','erasure/recreation protection','authentication','request origin','authorized HTTP reception','local midnight','unknown sensations','idempotent duplicates','blocked Strava origin','explicit group and notes persist','revision notifications','contextual rules without model','coach and MCP consent gates','consent survives restart','revocation stops MCP','no calendar change from chat']}));
+ console.log(JSON.stringify({result:'PASS',scope:'Isolated HTTP server and real D1; original database untouched',checks:['save profile/goal/plan','record activity','read persisted state','server restart','stale revision','erasure/recreation protection','authentication','request origin','authorized HTTP reception','local midnight','unknown sensations','idempotent duplicates','blocked Strava origin','explicit group and notes persist','revision notifications','contextual rules without model','coach and MCP consent gates','consent survives restart','revocation stops MCP','no calendar change from chat','same-day stale preview after pain, availability, activity and goal changes','current HTTP revision cannot bypass preview revalidation','valid review acceptance and restart']}));
 }finally{await stop();}

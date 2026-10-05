@@ -14,14 +14,14 @@ const fmt=(d:string)=>new Date(d+'T12:00:00Z').toLocaleDateString('es-ES',{weekd
 function stored(owner:string){try{const v=JSON.parse(localStorage.getItem(KEY)||'null');return v?.owner===owner?v:null;}catch{return null;}}
 function keep(owner:string,step:number,draft:any){try{localStorage.setItem(KEY,JSON.stringify({owner,step,draft}));}catch{}}
 export function clearOnboarding(){try{localStorage.removeItem(KEY);}catch{}}
-export default function Onboarding({account,state,save,busy,strava,refreshStrava,onFullForm,onDemo}:{account?:{name:string,email:string},state:any,save:(next:any)=>Promise<any>,busy:boolean,strava:any,refreshStrava:()=>Promise<void>,onFullForm:()=>void,onDemo:()=>void}){
+export default function Onboarding({account,state,save,busy,revision=null,strava,refreshStrava,onFullForm,onDemo}:{account?:{name:string,email:string},state:any,save:(next:any)=>Promise<any>,busy:boolean,revision?:number|null,strava:any,refreshStrava:()=>Promise<void>,onFullForm:()=>void,onDemo:()=>void}){
  const owner=account?.email||'local';
  const [step,setStep]=useState(0),[draft,setDraft]=useState<any>(()=>({...blankProfile(),name:account?.name?.split(/[ @]/)[0]||'',timezone:timeZone()})),[errors,setErrors]=useState<string[]>([]),[stravaSettings,setStravaSettings]=useState<any>(defaultStravaSettings),[stravaBusy,setStravaBusy]=useState(false),[stravaMessage,setStravaMessage]=useState(''),[gentle,setGentle]=useState(false),[reviewing,setReviewing]=useState(false);
  useEffect(()=>{const saved=stored(owner);if(saved){setDraft({...blankProfile(),...saved.draft,timezone:timeZone()});setStep(saved.step);}const url=new URL(window.location.href),code=url.searchParams.get('strava');if(code){url.searchParams.delete('strava');window.history.replaceState({},'',url.toString());setStravaMessage(code==='connected'?'Strava conectado. Tus carreras se consultan por separado en Ajustes, sin mezclarse con los registros del plan.':'No se completó la autorización con Strava. Puedes reintentarlo o continuar sin conectar.');if(saved)setStep(Math.max(saved.step,1));}},[owner]);
  useEffect(()=>{keep(owner,step,draft);},[owner,step,draft]);
  const set=(k:string,v:any)=>setDraft((d:any)=>({...d,[k]:v}));
  const setGoal=(g:any)=>setDraft((d:any)=>({...d,goal:{...d.goal,...g}}));
- const preview=useMemo<any>(()=>{if(step!==6)return null;try{return buildPlanPreview({...state,profile:draft},{conservative:gentle});}catch(e:any){return {error:e.message};}},[step,draft,gentle,state]);
+ const preview=useMemo<any>(()=>{if(step!==6)return null;try{return buildPlanPreview({...state,profile:draft},{conservative:gentle},today(),{revision});}catch(e:any){return {error:e.message};}},[step,draft,gentle,state,revision]);
  function check(s:number){
   const e:string[]=[],g=draft.goal;
   if(s===2){if(['nonstop','time','race'].includes(g.type)&&g.distance!==''&&g.distance!=null&&!(+g.distance>0&&+g.distance<=100))e.push('Revisa la distancia objetivo, o déjala vacía si no lo sabes.');if(g.date&&g.date<=today())e.push('La fecha objetivo debe ser posterior a hoy.');if(g.time&&!(seconds(g.time)>0))e.push('Tiempo deseado: usa mm:ss o hh:mm:ss.');}
@@ -34,7 +34,7 @@ export default function Onboarding({account,state,save,busy,strava,refreshStrava
  }
  function go(to:number){if(to>step){const e=check(step);setErrors(e);if(e.length)return;}setErrors([]);setStep(to);window.scrollTo?.({top:0});}
  async function connect(){setStravaBusy(true);setStravaMessage('');keep(owner,2,draft);try{await stravaAction('connect',stravaSettings);}catch(e:any){setStravaMessage(e.message);}finally{setStravaBusy(false);}}
- async function finish(){const e=check(6);setErrors(e);if(e.length||!preview||preview.error)return;const withProfile={...state,profile:draft};if(await save(acceptPlanPreview(withProfile,preview))){clearOnboarding();await refreshStrava();}}
+ async function finish(){try{const e=check(6);setErrors(e);if(e.length||!preview||preview.error)return;const withProfile={...state,profile:draft};if(await save(acceptPlanPreview(withProfile,preview,today(),revision))){clearOnboarding();await refreshStrava();}}catch(e){setErrors([e instanceof Error?e.message:'Vuelve a calcular la propuesta.']);}}
  const toggleDay=(d:number,on:boolean)=>setDraft((v:any)=>updateAvailability(v,d,on));
  const setMark=(i:number,k:string,val:any)=>set('marks',draft.marks.map((m:any,j:number)=>i===j?{...m,[k]:val}:m));
  let viability:any=null;try{viability=step===6?(preview?.plan?.viability||feasibility(draft)):null;}catch{}
