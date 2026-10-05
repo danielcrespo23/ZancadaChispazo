@@ -15,6 +15,7 @@ test('returning runner skips irrelevant consecutive-week input and references as
 test('sports and care are editable structured inputs and do not imply automatic Strava analysis',()=>{
  const profile={...blankProfile(),otherSports:[{id:'sport',type:'crossfit',day:2,minutes:45,intensity:'hard'}]},props={profile,onChange:()=>{}};
  assert.match(render(questions.SportQuestions,props),/CrossFit/);assert.match(render(questions.CareQuestions,props),/lesión reciente/);
+ const strength=render(questions.CareQuestions,{...props,profile:{...profile,strength:true}});assert.match(strength,/Material para fuerza complementaria/);assert.match(strength,/Banda elástica ligera/);assert.match(strength,/Mancuernas ligeras/);
  assert.match(render(questions.OwnHistoryConfirmation,{...props,state:empty()}),/condiciones actuales impiden/);
 });
 test('continuity review presents unregistered sessions as unconfirmed, with an explicit action',()=>{

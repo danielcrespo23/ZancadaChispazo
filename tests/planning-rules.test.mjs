@@ -63,7 +63,7 @@ test('short races may be compared; a 5 km performance never fixes an exact marat
 test('interval and specific endurance work change with distance; hills require a terrain reason',()=>{
  const p=runner(),five={...p,goal:{...p.goal,distance:5}},ten={...p,goal:{...p.goal,distance:10}},specific={key:'specific'};
  const short=session(five,'interval',start,8,0,6,specific,start),longer=session(ten,'interval',start,8,0,6,specific,start);assert(short.repetitions.workDistance<longer.repetitions.workDistance);assert(short.range[0]<longer.range[0]);
- const half=generate(p,start);assert(!half.sessions.some(s=>s.type==='interval'));assert(qualityEligibility(p,half).find(r=>r.type==='interval').reason.includes('resistencia sostenida'));
+ const half=generate(p,start);assert(half.sessions.some(s=>s.type==='interval'&&s.format.id==='interval-endurance'&&s.rpe===6));assert(qualityEligibility(p,half).find(r=>r.type==='interval').included);
  const flat=generate(ten,start),hilly=generate({...ten,goal:{...ten.goal,elevation:100}},start);assert(!flat.sessions.some(s=>s.type==='hills'));assert(hilly.sessions.some(s=>s.type==='hills'));assert(qualityEligibility(ten,flat).find(r=>r.type==='hills').reason.includes('pendientes'));
 });
 test('the local planner requires no AI or network and does not depend on a desired time for training paces',()=>{

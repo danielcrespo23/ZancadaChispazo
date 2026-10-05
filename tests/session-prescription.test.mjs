@@ -41,12 +41,12 @@ test('hills and run/walk retain a final recovery and never invent a distance',()
  }
  const hills=workout(p,'hills',0,30);assert.equal(blockInstruction(hills,hills.blocks.find(b=>b.effort===6)).pace,null);
 });
-test('tempo stays continuous and grows by controlled stages for distance and time prescriptions',()=>{
+test('explicit continuous tempo keeps its purpose and dose without calendar-driven growth',()=>{
  for(const timed of [false,true])for(const distance of [10,21.1]){
   const p=runner({goal:{...runner().goal,distance},...(timed?{marks:[],easyPace:''}:{})});
-  const sessions=[0,4,12,20].map(week=>workout(p,'tempo',8,40,week));
+  const sessions=[0,4,12,20].map(week=>session(p,'tempo',start,8,40,week,null,start,{format:'tempo-continuous'}));
   const work=sessions.map(s=>s.blocks.find(b=>b.label.startsWith('Tempo')).distance||s.blocks.find(b=>b.label.startsWith('Tempo')).seconds);
-  assert(work[1]>work[0]);assert(work[3]===work[2]);assert(sessions.every(s=>sessionTotals(s).matching));
+  assert(work.every(v=>v===work[0]));assert(sessions.every(s=>sessionTotals(s).matching));
   assert(sessions.every(s=>s.blocks.find(b=>b.label==='Aproximación suave').kind==='main'));
   const initial=sessions[0],main=initial.blocks.filter(b=>b.kind==='main').reduce((n,b)=>n+(timed?b.seconds:b.distance),0);
   assert(Math.abs(work[0]/main-.4)<.03,'tempo fraction describes the main block, including its soft approach and exit');
@@ -121,4 +121,14 @@ test('calendar and detail render the same count, practical blocks, timing and co
  assert.doesNotMatch(detail,/FC orientativa: \d/);assert.match(detail,/Sin FC pautada/);
  const measured=render(components.default,{s,profile:{...p,hrSource:'measured',restHR:60,maxHR:190},referenceDate:start});assert.match(measured,/FC orientativa: 151–171 ppm/);
  const timed=render(components.default,{s:workout(runner({marks:[],easyPace:''}),'interval',0,30),profile:p,referenceDate:start});assert.match(timed,/Duración prescrita: 30 min/);assert.match(timed,/no se inventa una distancia/);
+});
+test('the detail explains a library format and a time-driven substitution',()=>{
+ const p=runner({goal:{...runner().goal,distance:21.1}}),s=session(p,'tempo',start,8,40,0,{key:'build'},start),html=render(components.default,{s,profile:p,referenceDate:start});
+ assert.match(html,/Tempo fraccionado/);assert.match(html,/2 ×/);assert.match(html,/1 recuperación/);assert.match(html,/Base regular confirmada/);
+ const short=fitSession({...p,minutes:{1:12}},'tempo',start,8,12,0,{key:'build'},start),alternative=render(components.default,{s:short,profile:p,referenceDate:start});assert.match(alternative,/Sesión sustituida/);assert.match(alternative,/carrera fácil|calentamiento/i);
+});
+test('strength instructions show complete rounds, rests and material-specific movements without running repetitions',()=>{
+ const p=runner({strengthEquipment:'weights'}),s=workout(p,'strength',0,25),detail=render(components.default,{s,profile:p,referenceDate:start}),calendar=render(components.CalendarPrescription,{s});
+ for(const text of ['Fuerza complementaria','2 ronda','10 ejercicios','mancuerna ligera','Descansa','Respira'])assert(detail.includes(text),text);
+ assert(!calendar.includes('calendar-repetitions'));assert(!detail.includes('NaN'));
 });

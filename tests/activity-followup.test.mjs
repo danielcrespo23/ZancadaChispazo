@@ -35,7 +35,7 @@ test('tempo and intervals never use the whole-run average as fast-block evidence
  }
 });
 test('identified real interval blocks compare work and the exact n−1 recoveries',()=>{
- const s=session({...p,goal:{type:'race',distance:5}},'interval',today(),4,0,0);
+ const s=session({...p,goal:{type:'race',distance:5,intent:'improve'}},'interval',today(),4,0,0);
  const laps=s.blocks.map(b=>({distance:b.distance,seconds:b.seconds,kind:b.kind==='main'&&b.effort>=5?'work':b.kind,rpe:b.effort,recoverySeconds:0}));
  const a=run({distance:s.distance,seconds:s.seconds,type:'interval',rpe:7,laps});const data=blockComparison(a,s);
  assert.equal(data.status,'compatible');assert.equal(data.rows.find(r=>r.label==='Bloques de trabajo').actual,'4');assert.equal(data.rows.find(r=>r.label==='Recuperaciones').actual,'3');assert.equal(data.missing.length,0);

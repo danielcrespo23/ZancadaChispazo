@@ -41,7 +41,7 @@ test('explicit controlled/easy/unknown marks, old marks, hills and pauses cannot
 });
 test('strength and CrossFit reserve recovery, other sports consume time but never running kilometres',()=>{
  const p=runner({days:[1,2,3,4,5,6,0],minutes:Object.fromEntries([0,1,2,3,4,5,6].map(d=>[d,60])),trainingDays:4,recentFrequency:4,longDay:0,strength:true,strengthDay:3,otherSports:[{id:'cf',type:'crossfit',day:5,minutes:45,intensity:'hard'},{id:'bike',type:'cycling',day:1,minutes:40,intensity:'easy'}]}),plan=generate(p,start);
- assert(plan.sessions.some(s=>s.type==='strength'));assert(plan.sessions.filter(training).every(s=>![3,5].includes(day(s.date))));assert(plan.sessions.filter(s=>s.hard&&s.type!=='race').every(s=>!nearHardSport(p,day(s.date))));
+ assert(!plan.sessions.some(s=>s.type==='strength'));assert(plan.context.notes.some(n=>n.includes('duplicada')));assert(plan.sessions.filter(training).every(s=>day(s.date)!==5));assert(plan.sessions.filter(s=>s.hard&&s.type!=='race').every(s=>!nearHardSport(p,day(s.date))));
  assert(plan.sessions.filter(s=>day(s.date)===1).every(s=>s.seconds<=20*60));totals(plan,p);
  const own=recentTraining({profile:p,activities:[{date:'2026-09-25',distance:80,seconds:7200,type:'cycling'},{date:'2026-09-26',distance:5,seconds:1800,type:'easy'}]},start);assert.equal(own.count,1);assert.equal(own.longest,5);
 });

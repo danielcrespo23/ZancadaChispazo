@@ -83,6 +83,7 @@ Consulta [configuración, condiciones vigentes, instalación opcional y límites
 | --- | --- |
 | `app/` | Interfaz (React) y rutas del servidor (`app/api/…`) |
 | `lib/engine.mjs` | Motor del plan: sesiones, ritmos, viabilidad, ajustes |
+| `lib/session-library.mjs` | Biblioteca de sesiones: propósito, requisitos, dosis, recuperaciones, progresión y fuerza |
 | `lib/planning-rules.mjs` | Reglas explícitas de carga, fases, distancia y fuentes técnicas |
 | `lib/training.mjs` | Revisión del plan, progreso, calendario exportable |
 | `lib/state-store.mjs` | Lectura y escritura de datos por usuario |
@@ -101,6 +102,8 @@ El motor funciona sin IA y documenta carga real, viabilidad, fases, recuperació
 La [evaluación de referencias y calibración de ritmos](docs/calibracion-ritmos.md) compara marcas coherentes, contradictorias, antiguas y ausentes, distingue capacidad estimada, rodajes observados y objetivo de carrera, y documenta las propuestas graduales y sus pruebas.
 
 El calendario y el detalle muestran instrucciones por bloques, recuperaciones contadas, esfuerzo y alternativas concretas por cansancio. Consulta los [totales, conversiones y comprobaciones de las sesiones](docs/prescripcion-sesiones.md).
+
+La [biblioteca de entrenamientos y sus ejemplos generados](docs/biblioteca-sesiones.md) documenta la selección para 5 km, 10 km, media y maratón, los recortes por tiempo, la progresión de una sola variable y la fuerza sin duplicar CrossFit. Incluye ocho perfiles ficticios reproducibles y comprobaciones de revisiones del plan.
 
 El seguimiento conserva el calendario hasta aceptar un cambio. Consulta [reglas de interpretación, asociaciones, progresión comparable y recepción de archivos](docs/seguimiento-actividades.md), con formato JSON, API autenticada, límites y pruebas.
 
