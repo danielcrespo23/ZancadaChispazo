@@ -121,6 +121,16 @@ try{
  const validState=acceptPlanPreview(finalReview.state,validPreview,today(),finalReview.revision);
  assert.equal((await call('PUT',{state:validState,revision:finalReview.revision},write)).status,200,'valid proposals still accept over HTTP');
  assert.deepEqual((await call('GET')).data.state.activities,reviewBase.state.activities);
+ // Calibrating without enough observations must hold the paces and remain
+ // reproducible by the server, including the explicit review option.
+ const calibrationRow=(await call('GET')).data;
+ const calibrationPreview=buildPlanPreview(calibrationRow.state,{calibratePaces:true},today(),{revision:calibrationRow.revision});
+ const calibratedState=acceptPlanPreview(calibrationRow.state,calibrationPreview,today(),calibrationRow.revision);
+ assert.equal((await call('PUT',{state:calibratedState,revision:calibrationRow.revision},write)).status,200,'valid calibration accepts through server reconstruction');
+ const calibratedRow=(await call('GET')).data;
+ assert.equal(calibratedRow.state.plan.basis.review.options.calibratePaces,true);
+ assert.deepEqual(calibratedRow.state.activities,reviewBase.state.activities);
+ assert.deepEqual(calibratedRow.state.profile,reviewBase.state.profile);
  const acceptedReview=(await call('GET')).data;await stop();await start();assert.deepEqual((await call('GET')).data,acceptedReview,'accepted review survives restart');
  if(process.argv.includes('--browser')){const before=(await call('GET')).data;console.log(JSON.stringify(await verifyPersistedUI(origin,before.state)));assert.deepEqual((await call('GET')).data,before);}
  console.log(JSON.stringify({result:'PASS',scope:'Isolated HTTP server and real D1; original database untouched',checks:['save profile/goal/plan','record activity','read persisted state','server restart','stale revision','erasure/recreation protection','authentication','request origin','authorized HTTP reception','local midnight','unknown sensations','idempotent duplicates','blocked Strava origin','explicit group and notes persist','revision notifications','contextual rules without model','coach and MCP consent gates','consent survives restart','revocation stops MCP','no calendar change from chat','same-day stale preview after pain, availability, activity and goal changes','current HTTP revision cannot bypass preview revalidation','valid review acceptance and restart']}));

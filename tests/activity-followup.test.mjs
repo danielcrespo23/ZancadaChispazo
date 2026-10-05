@@ -104,12 +104,12 @@ test('concrete reductions require accept, support reject and joint undo, and pre
  assert.throws(()=>decideTrainingProposal({...pending,plan:{...pending.plan,sessions:pending.plan.sessions.map(s=>s.id===future.id?{...s,seconds:s.seconds+1}:s)}},v.id,true),/cambió/);
 });
 const past=[-14,-7,0].map(n=>session(p,'easy',addDays(today(),n),5,0,0));
-const history=past.map((s,i)=>run({id:'e'+i,date:s.date,sessionId:s.id,seconds:Math.round(s.seconds*.94),performance:'expected'}));
+const history=past.map((s,i)=>run({id:'e'+i,date:s.date,sessionId:s.id,seconds:Math.round(s.seconds*.94),elapsedSeconds:Math.round(s.seconds*.94),elevation:0,measurement:'measured',conversation:'yes',performance:'expected'}));
 const progressPlan={...state().plan,sessions:[...past,future]};
 test('three comparable sessions can show progress without a better checkbox; one fast run cannot',()=>{
  assert.equal(progressEvidence(history[0],progressPlan,p,[history[0]]).eligible,false);
  const evidence=progressEvidence(history.at(-1),progressPlan,p,history);assert.equal(evidence.eligible,true);assert.equal(evidence.count,3);
- const v=proposal(history.at(-1),progressPlan,p,history);assert(v);assert.equal(v.direction,'increase');assert(v.changes.every(c=>c.after.distance<=c.before.distance*1.05&&c.after.distance>c.before.distance));assert(v.changes.every(c=>!['tempo','interval','hills'].includes(c.after.type)));
+ const v=proposal(history.at(-1),progressPlan,p,history);assert(v);assert.equal(v.direction,'increase');assert(v.changes.every(c=>c.after.distance===c.before.distance&&c.after.range[0]===c.before.range[0]-5));assert(v.changes.every(c=>!['tempo','interval','hills'].includes(c.after.type)));
 });
 test('heat, hills, pauses, unknown sensations and recent relevant pain prevent progress',()=>{
  const a=history.at(-1);

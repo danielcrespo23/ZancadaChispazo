@@ -1,0 +1,387 @@
+{
+  "date": "2026-10-05",
+  "fictional": true,
+  "cases": [
+    {
+      "name": "Equivalentes",
+      "anchor": "5k",
+      "capacity": "4:50–5:10 min/km",
+      "confidence": "reference",
+      "easy": "6:20–6:55 min/km",
+      "tempo": "5:10–5:40 min/km",
+      "raceEstimate": {
+        "secondsRange": [
+          3030,
+          3225
+        ],
+        "pointSeconds": 3127.147510192178
+      },
+      "goalPace": "5:00",
+      "limitations": [
+        "Sin FC máxima y en reposo: no se muestran zonas cardíacas."
+      ],
+      "assessments": [
+        {
+          "id": "5k",
+          "mark": {
+            "id": "5k",
+            "date": "2026-09-14",
+            "distance": 5,
+            "time": "25:00",
+            "elapsedTime": "25:00",
+            "context": "competition",
+            "measurement": "measured",
+            "effort": "race",
+            "terrain": "asphalt",
+            "temperature": 16,
+            "elevation": 0,
+            "conditions": "normal"
+          },
+          "ageDays": 21,
+          "distance": 5,
+          "totalSeconds": 1500,
+          "eligible": true,
+          "quality": 1,
+          "recency": 1,
+          "limitations": [],
+          "reasons": [],
+          "used": true,
+          "targetReason": null
+        },
+        {
+          "id": "10k",
+          "mark": {
+            "id": "10k",
+            "date": "2026-09-21",
+            "distance": 10,
+            "time": "52:07",
+            "elapsedTime": "52:07",
+            "context": "competition",
+            "measurement": "measured",
+            "effort": "race",
+            "terrain": "asphalt",
+            "temperature": 16,
+            "elevation": 0,
+            "conditions": "normal"
+          },
+          "ageDays": 14,
+          "distance": 10,
+          "totalSeconds": 3127,
+          "eligible": true,
+          "quality": 1,
+          "recency": 1,
+          "limitations": [],
+          "reasons": [],
+          "used": true,
+          "targetReason": null
+        }
+      ],
+      "conflicts": []
+    },
+    {
+      "name": "Contradictorias",
+      "anchor": "fast",
+      "capacity": "4:00–5:25 min/km",
+      "confidence": "low",
+      "easy": "6:20–6:55 min/km",
+      "tempo": "Por esfuerzo",
+      "raceEstimate": null,
+      "goalPace": "5:00",
+      "limitations": [
+        "Las referencias se contradicen al compararlas por distancia. Puede influir la preparación, la antigüedad o las condiciones; no se atribuye automáticamente a progreso. Confianza reducida.",
+        "Sin FC máxima y en reposo: no se muestran zonas cardíacas."
+      ],
+      "assessments": [
+        {
+          "id": "5k",
+          "mark": {
+            "id": "5k",
+            "date": "2026-09-14",
+            "distance": 5,
+            "time": "25:00",
+            "elapsedTime": "25:00",
+            "context": "competition",
+            "measurement": "measured",
+            "effort": "race",
+            "terrain": "asphalt",
+            "temperature": 16,
+            "elevation": 0,
+            "conditions": "normal"
+          },
+          "ageDays": 21,
+          "distance": 5,
+          "totalSeconds": 1500,
+          "eligible": true,
+          "quality": 1,
+          "recency": 1,
+          "limitations": [],
+          "reasons": [],
+          "used": true,
+          "targetReason": null
+        },
+        {
+          "id": "fast",
+          "mark": {
+            "id": "fast",
+            "date": "2026-09-21",
+            "distance": 5,
+            "time": "20:00",
+            "elapsedTime": "20:00",
+            "context": "competition",
+            "measurement": "measured",
+            "effort": "race",
+            "terrain": "asphalt",
+            "temperature": 16,
+            "elevation": 0,
+            "conditions": "normal"
+          },
+          "ageDays": 14,
+          "distance": 5,
+          "totalSeconds": 1200,
+          "eligible": true,
+          "quality": 1,
+          "recency": 1,
+          "limitations": [],
+          "reasons": [],
+          "used": true,
+          "targetReason": null
+        }
+      ],
+      "conflicts": [
+        {
+          "ids": [
+            "5k",
+            "fast"
+          ],
+          "differencePercent": 25,
+          "conditionsComparable": true
+        }
+      ]
+    },
+    {
+      "name": "Nueva menos comparable",
+      "anchor": "clean",
+      "capacity": "4:00–5:25 min/km",
+      "confidence": "low",
+      "easy": "6:20–6:55 min/km",
+      "tempo": "Por esfuerzo",
+      "raceEstimate": null,
+      "goalPace": "5:00",
+      "limitations": [
+        "Las referencias se contradicen al compararlas por distancia. Puede influir la preparación, la antigüedad o las condiciones; no se atribuye automáticamente a progreso. Confianza reducida.",
+        "Calor declarado: menor comparabilidad, sin corrección numérica del tiempo.",
+        "Sin FC máxima y en reposo: no se muestran zonas cardíacas."
+      ],
+      "assessments": [
+        {
+          "id": "clean",
+          "mark": {
+            "id": "clean",
+            "date": "2026-09-14",
+            "distance": 10,
+            "time": "52:07",
+            "elapsedTime": "52:07",
+            "context": "competition",
+            "measurement": "measured",
+            "effort": "race",
+            "terrain": "asphalt",
+            "temperature": 16,
+            "elevation": 0,
+            "conditions": "normal"
+          },
+          "ageDays": 21,
+          "distance": 10,
+          "totalSeconds": 3127,
+          "eligible": true,
+          "quality": 1,
+          "recency": 1,
+          "limitations": [],
+          "reasons": [],
+          "used": true,
+          "targetReason": null
+        },
+        {
+          "id": "new",
+          "mark": {
+            "id": "new",
+            "date": "2026-10-03",
+            "distance": 5,
+            "time": "20:00",
+            "elapsedTime": "20:00",
+            "context": "test",
+            "measurement": "measured",
+            "effort": "race",
+            "terrain": "asphalt",
+            "temperature": 28,
+            "elevation": 60,
+            "conditions": "normal"
+          },
+          "ageDays": 2,
+          "distance": 5,
+          "totalSeconds": 1200,
+          "eligible": true,
+          "quality": 0.35100000000000003,
+          "recency": 1,
+          "limitations": [
+            "Calor declarado: menor comparabilidad, sin corrección numérica del tiempo."
+          ],
+          "reasons": [],
+          "used": true,
+          "targetReason": null
+        }
+      ],
+      "conflicts": [
+        {
+          "ids": [
+            "clean",
+            "new"
+          ],
+          "differencePercent": 25,
+          "conditionsComparable": false
+        }
+      ]
+    },
+    {
+      "name": "Antigua (126 días)",
+      "anchor": "5k",
+      "capacity": "4:40–5:20 min/km",
+      "confidence": "provisional",
+      "easy": "6:20–6:55 min/km",
+      "tempo": "Por esfuerzo",
+      "raceEstimate": null,
+      "goalPace": "5:00",
+      "limitations": [
+        "Más de 90 días: capacidad actual provisional; hace falta una referencia reciente para competir.",
+        "Sin FC máxima y en reposo: no se muestran zonas cardíacas."
+      ],
+      "assessments": [
+        {
+          "id": "5k",
+          "mark": {
+            "id": "5k",
+            "date": "2026-06-01",
+            "distance": 5,
+            "time": "25:00",
+            "elapsedTime": "25:00",
+            "context": "competition",
+            "measurement": "measured",
+            "effort": "race",
+            "terrain": "asphalt",
+            "temperature": 16,
+            "elevation": 0,
+            "conditions": "normal"
+          },
+          "ageDays": 126,
+          "distance": 5,
+          "totalSeconds": 1500,
+          "eligible": true,
+          "quality": 1,
+          "recency": 0.4,
+          "limitations": [
+            "Más de 90 días: capacidad actual provisional; hace falta una referencia reciente para competir."
+          ],
+          "reasons": [],
+          "used": true,
+          "targetReason": null
+        }
+      ],
+      "conflicts": []
+    },
+    {
+      "name": "Ausentes; cómodo declarado",
+      "anchor": null,
+      "capacity": "Por esfuerzo",
+      "confidence": "none",
+      "easy": "6:15–6:45 min/km",
+      "tempo": "Por esfuerzo",
+      "raceEstimate": null,
+      "goalPace": "5:00",
+      "limitations": [
+        "Sin marca normalizable para entrenamiento: los objetivos suaves parten del ritmo cómodo declarado. Son referencias provisionales, no umbral ni rendimiento medidos; manda el esfuerzo.",
+        "Sin FC máxima y en reposo: no se muestran zonas cardíacas."
+      ],
+      "assessments": [],
+      "conflicts": []
+    },
+    {
+      "name": "Sin referencias ni ritmo declarado",
+      "anchor": null,
+      "capacity": "Por esfuerzo",
+      "confidence": "none",
+      "easy": "Por esfuerzo",
+      "tempo": "Por esfuerzo",
+      "raceEstimate": null,
+      "goalPace": "5:00",
+      "limitations": [
+        "Sin referencia válida de ritmo suave: las sesiones se guían por esfuerzo y conversación.",
+        "Sin FC máxima y en reposo: no se muestran zonas cardíacas."
+      ],
+      "assessments": [],
+      "conflicts": []
+    }
+  ],
+  "progress": {
+    "observedComfortablePace": "6:15",
+    "goalPace": "5:00",
+    "evidence": [
+      {
+        "id": "comfortable-0",
+        "date": "2026-09-21",
+        "distance": 5,
+        "seconds": 1875,
+        "rpe": 3,
+        "fatigue": 2,
+        "temperature": 16
+      },
+      {
+        "id": "comfortable-1",
+        "date": "2026-09-28",
+        "distance": 5,
+        "seconds": 1875,
+        "rpe": 3,
+        "fatigue": 2,
+        "temperature": 16
+      },
+      {
+        "id": "comfortable-2",
+        "date": "2026-10-05",
+        "distance": 5,
+        "seconds": 1875,
+        "rpe": 3,
+        "fatigue": 2,
+        "temperature": 16
+      }
+    ],
+    "changes": [
+      {
+        "date": "2026-10-07",
+        "type": "Carrera fácil",
+        "distance": 5,
+        "beforeRange": "6:20–6:55 min/km",
+        "afterRange": "6:15–6:50 min/km"
+      },
+      {
+        "date": "2026-10-12",
+        "type": "Carrera fácil",
+        "distance": 5,
+        "beforeRange": "6:20–6:55 min/km",
+        "afterRange": "6:15–6:50 min/km"
+      }
+    ],
+    "reason": "Tres sesiones comparables en al menos siete días, dentro de los últimos 21, han resultado al menos un 3 % más rápidas que su objetivo orientativo, sin mayor esfuerzo declarado. Proponemos solo 5 s/km en bloques cómodos del mismo tipo, sin aumentar distancia ni acelerar calidad. Ritmo cómodo observado: 6:15 min/km. Referencias: 2026-10-05 · 5 km · 6:15 min/km · esfuerzo 3/10; 2026-09-28 · 5 km · 6:15 min/km · esfuerzo 3/10; 2026-09-21 · 5 km · 6:15 min/km · esfuerzo 3/10. Es una inferencia para revisar, no una medición de mejora física.",
+    "missingTemperatureReason": "Temperatura desconocida: no sabemos si las condiciones son comparables; se mantiene el plan. Regístrala si la conoces, sin inventarla."
+  },
+  "calibrationPreview": {
+    "reasons": [
+      "Se conservan el origen, las fechas de las fases y la cadencia de descargas. Las semanas transcurridas no demuestran adaptación.",
+      "Ritmos de calidad conservados: las referencias de rendimiento no han cambiado. Recalcular no acredita progreso ni acumula aceleraciones.",
+      "Calibración desde 3 rodajes comparables: ritmo cómodo observado 6:15 min/km. Se propone como máximo 5 s/km en ritmos cómodos; calidad y objetivo de carrera no se aceleran desde esos rodajes.",
+      "Base semanal, tirada reciente y referencias del perfil guardado. El historial incompleto no sustituye los datos declarados.",
+      "Historial sin confirmar: no se deduce inactividad ni adaptación por el calendario. Se mantiene una base declarada limitada y se congela su crecimiento hasta contrastar lo realizado.",
+      "¿Has registrado todas tus carreras de las últimas cuatro semanas? Si falta alguna, no interpretaremos los días sin registro como una pausa.",
+      "El reparto reserva la mayor distancia para la tirada larga y limita los rodajes al 90 % de ella. Si la disponibilidad o la tirada reciente limitan el volumen, no se compensa con otros días."
+    ],
+    "phaseOrigin": "2026-09-21",
+    "paceEvidenceCount": 3
+  }
+}

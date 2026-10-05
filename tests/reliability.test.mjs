@@ -63,10 +63,10 @@ test('progression respects time reserved for other sports and excludes provider 
  const p={...profile(),otherSports:[{type:'cycling',day:1,minutes:35,intensity:'easy'}]};
  const before=session(p,'easy',date,4,0,1);
  const past=[-14,-7,0].map(offset=>session(p,'easy',addDays(today(),offset),3,0,0));
- const history=past.map((s,i)=>({...run(s.date),id:`evidence-${i}`,sessionId:s.id,seconds:Math.round(s.seconds*.93),distance:s.distance,type:s.type,terrain:'asphalt',temperature:18,performance:'better'}));
+ const history=past.map((s,i)=>({...run(s.date),id:`evidence-${i}`,sessionId:s.id,seconds:Math.round(s.seconds*.93),elapsedSeconds:Math.round(s.seconds*.93),elevation:0,measurement:'measured',conversation:'yes',distance:s.distance,type:s.type,terrain:'asphalt',temperature:18,performance:'better'}));
  const plan={start:addDays(today(),-14),created:addDays(today(),-14),end:addDays(today(),30),sessions:[...past,before]};
  assert.equal(progressEvidence(history.at(-1),plan,p,history).eligible,true);
- assert.equal(proposal(history.at(-1),plan,p,history),null,'extra running time cannot consume the cycling reservation');
+ const update=proposal(history.at(-1),plan,p,history);assert(update);assert(update.changes.every(c=>c.after.distance===c.before.distance&&c.after.seconds<=c.before.seconds&&c.after.seconds<=25*60),'pace review preserves distance and the cycling reservation');
  const external=history.map(a=>({...a,source:'strava'}));
  assert.equal(progressEvidence(external.at(-1),plan,p,external).eligible,false);
 });

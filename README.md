@@ -98,6 +98,8 @@ El cuestionario y el perfil comparten un resumen editable de datos medidos, esti
 
 El motor funciona sin IA y documenta carga real, viabilidad, fases, recuperación, puesta a punto, métodos de ritmo y límites. Consulta las [reglas contrastadas con fuentes primarias y la comparación de perfiles](docs/motor-planificacion.md). Los calendarios anteriores se actualizan al aceptar una revisión.
 
+La [evaluación de referencias y calibración de ritmos](docs/calibracion-ritmos.md) compara marcas coherentes, contradictorias, antiguas y ausentes, distingue capacidad estimada, rodajes observados y objetivo de carrera, y documenta las propuestas graduales y sus pruebas.
+
 El calendario y el detalle muestran instrucciones por bloques, recuperaciones contadas, esfuerzo y alternativas concretas por cansancio. Consulta los [totales, conversiones y comprobaciones de las sesiones](docs/prescripcion-sesiones.md).
 
 El seguimiento conserva el calendario hasta aceptar un cambio. Consulta [reglas de interpretación, asociaciones, progresión comparable y recepción de archivos](docs/seguimiento-actividades.md), con formato JSON, API autenticada, límites y pruebas.

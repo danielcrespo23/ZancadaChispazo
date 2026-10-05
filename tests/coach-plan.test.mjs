@@ -40,7 +40,7 @@ test('saved broken plans are diagnosed; revision preserves completed and histori
 test('history review uses own race performances but does not promote easy runs or provider records',()=>{
  const p=profile(),activities=[];
  for(let w=0;w<4;w++)for(const offset of [1,3,5])activities.push({id:`${w}-${offset}`,date:addDays(monday(start),-28+w*7+offset),type:'easy',distance:6,seconds:2340,rpe:3,fatigue:2,pain:'none',terrain:'asphalt'});
- activities.push({id:'race',raceEffort:'race',date:'2026-09-20',type:'race',distance:5,seconds:1500,rpe:8,fatigue:3,pain:'none',terrain:'asphalt'});
+ activities.push({id:'race',measurement:'measured',raceEffort:'race',date:'2026-09-20',type:'race',distance:5,seconds:1500,rpe:8,fatigue:3,pain:'none',terrain:'asphalt'});
  activities.push({id:'provider',source:'strava',date:'2026-09-28',type:'race',distance:5,seconds:1200,rpe:9,pain:'none',terrain:'asphalt'});
  const state={profile:p,activities,changes:[],proposals:[],plan:null};
  const preview=buildPlanPreview(state,{useHistory:true,completeHistory:true},start);
